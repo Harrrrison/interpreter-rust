@@ -22,9 +22,8 @@ fn main() {
                 String::new()
             });
 
-            // Uncomment this block to pass the first stage
             if !file_contents.is_empty() {
-                panic!("Scanner not implemented");
+                tokenize(&file_contents);
             } else {
                 println!("EOF  null"); // Placeholder, remove this line when implementing the scanner
             }
@@ -32,6 +31,16 @@ fn main() {
         _ => {
             writeln!(io::stderr(), "Unknown command: {}", command).unwrap();
             return;
+        }
+    }
+
+    fn tokenize(input: &str) {
+        for char in input.chars() {
+            match char {
+                '(' => println!("LEFT_PAREN ( null"),
+                ')' => println!("LEFT_PAREN ( null"),
+                _ => {}
+            }
         }
     }
 }
