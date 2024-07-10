@@ -54,11 +54,13 @@ fn main() {
                 a => {
                     eprintln!("[line {}] Error: Unexpected character: {}", line_nb, a);
                     return_code = 65;
-                    exit(return_code);
                 }
             }
         }
         println!("EOF  null"); // Placeholder, remove this line when implementing the scanner
+        if return_code != 0 {
+            exit(return_code)
+        }
         return return_code;
     }
 }
