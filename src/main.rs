@@ -57,7 +57,7 @@ fn main() {
                         chars.nth(1);
                         continue;
                     }
-                    _ => println!("EQUAL = null"),
+                    a => println!("EQUAL = null"),
                 },
                 '\n' => line_nb += 1,
                 a => {
