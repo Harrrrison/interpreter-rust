@@ -38,7 +38,7 @@ fn main() {
         for char in input.chars() {
             match char {
                 '(' => println!("LEFT_PAREN ( null"),
-                ')' => println!("RIGHT_PAREN ( null"),
+                ')' => println!("RIGHT_PAREN ) null"),
                 _ => {}
             }
         }
