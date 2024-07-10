@@ -35,19 +35,23 @@ fn main() {
     }
 
     fn tokenize(input: &str) {
-        for char in input.chars() {
-            match char {
-                '(' => println!("LEFT_PAREN ( null"),
-                ')' => println!("RIGHT_PAREN ) null"),
-                '{' => println!("LEFT_BRACE {{ null"),
-                '}' => println!("RIGHT_BRACE }} null"),
-                ',' => println!("COMMA , null"),
-                '.' => println!("DOT . null"),
-                '-' => println!("MINUS - null"),
-                '+' => println!("PLUS + null"),
-                ';' => println!("SEMICOLON ; null"),
-                '*' => println!("STAR * null"),
-                _ => {}
+        let mut linenb = 0;
+        for line_count in input.lines() {
+            for char in line_count.chars() {
+                match char {
+                    '(' => println!("LEFT_PAREN ( null"),
+                    ')' => println!("RIGHT_PAREN ) null"),
+                    '{' => println!("LEFT_BRACE {{ null"),
+                    '}' => println!("RIGHT_BRACE }} null"),
+                    ',' => println!("COMMA , null"),
+                    '.' => println!("DOT . null"),
+                    '-' => println!("MINUS - null"),
+                    '+' => println!("PLUS + null"),
+                    ';' => println!("SEMICOLON ; null"),
+                    '*' => println!("STAR * null"),
+                    _ => println!("[line {}] Error: Unexpected character: {}", linenb, char),
+                }
+                linenb += 1;
             }
         }
         println!("EOF  null"); // Placeholder, remove this line when implementing the scanner
