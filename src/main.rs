@@ -34,7 +34,8 @@ fn main() {
         }
     }
     // bad practice need to use a seperate file for the lexr secion
-    fn tokenize(input: &str) {
+    fn tokenize(input: &str) -> i32 {
+        let mut return_code = 0;
         for char in input.chars() {
             match char {
                 '(' => println!("LEFT_PAREN ( null"),
@@ -47,9 +48,13 @@ fn main() {
                 '+' => println!("PLUS + null"),
                 ';' => println!("SEMICOLON ; null"),
                 '*' => println!("STAR * null"),
-                _ => println!("[line 1] Error: Unexpected character: {}", char),
+                _ => {
+                    println!("[line 1] Error: Unexpected character: {}", char);
+                    return_code = 65;
+                }
             }
         }
         println!("EOF  null"); // Placeholder, remove this line when implementing the scanner
+        return return_code;
     }
 }
