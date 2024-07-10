@@ -38,7 +38,7 @@ fn main() {
     fn tokenize(input: &str) -> i32 {
         let mut return_code = 0;
         let mut line_nb = 1;
-        let mut chars = input.chars();
+        let mut chars = input.chars().peekable();
         while let Some(char) = chars.next() {
             match char {
                 '(' => println!("LEFT_PAREN ( null"),
@@ -51,7 +51,7 @@ fn main() {
                 '+' => println!("PLUS + null"),
                 ';' => println!("SEMICOLON ; null"),
                 '*' => println!("STAR * null"),
-                '=' => match input.chars().next() {
+                '=' => match chars.peek() {
                     Some('=') => {
                         println!("EQUAL_EQUAL == null");
                         chars.nth(1);
