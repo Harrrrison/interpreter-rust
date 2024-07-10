@@ -54,7 +54,6 @@ fn main() {
                 '=' => match chars.peek() {
                     Some('=') => {
                         println!("EQUAL_EQUAL == null");
-                        chars.nth(1);
                         continue;
                     }
                     _ => println!("EQUAL = null"),
