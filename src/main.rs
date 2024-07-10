@@ -37,8 +37,10 @@ fn main() {
     fn tokenize(input: &str) {
         for char in input.chars() {
             match char {
-                '(' | '{' => println!("LEFT_PAREN {} null", char),
-                ')' | '}' => println!("RIGHT_PAREN {} null", char),
+                '(' => println!("LEFT_PAREN ( null"),
+                ')' => println!("RIGHT_PAREN ) null"),
+                '{' => println!("LEFT_BRACE {{ null"),
+                '}' => println!("RIGHT_BRACE }} null"),
                 _ => {}
             }
         }
