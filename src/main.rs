@@ -25,6 +25,7 @@ fn main() {
             if !file_contents.is_empty() {
                 tokenize(&file_contents);
             } else {
+                println!("EOF  null"); // Placeholder, remove this line when implementing the scanner
             }
         }
         _ => {
@@ -41,5 +42,6 @@ fn main() {
                 _ => {}
             }
         }
+        println!("EOF  null"); // Placeholder, remove this line when implementing the scanner
     }
 }
