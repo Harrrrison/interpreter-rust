@@ -37,7 +37,7 @@ fn main() {
     // bad practice need to use a seperate file for the lexr secion
     fn tokenize(input: &str) -> i32 {
         let mut return_code = 0;
-        let mut line_nb = 0;
+        let mut line_nb = 1;
         for char in input.chars() {
             match char {
                 '(' => println!("LEFT_PAREN ( null"),
