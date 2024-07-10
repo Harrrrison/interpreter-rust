@@ -1,6 +1,7 @@
 use std::env;
 use std::fs;
 use std::io::{self, Write};
+use std::process::exit;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -36,6 +37,7 @@ fn main() {
     // bad practice need to use a seperate file for the lexr secion
     fn tokenize(input: &str) -> i32 {
         let mut return_code = 0;
+        let mut line_nb = 0;
         for char in input.chars() {
             match char {
                 '(' => println!("LEFT_PAREN ( null"),
@@ -48,9 +50,11 @@ fn main() {
                 '+' => println!("PLUS + null"),
                 ';' => println!("SEMICOLON ; null"),
                 '*' => println!("STAR * null"),
+                '\n' => line_nb += 1,
                 a => {
-                    eprintln!("[line 1] Error: Unexpected character: {}", a);
+                    eprintln!("[line {}] Error: Unexpected character: {}", line_nb, a);
                     return_code = 65;
+                    exit(return_code);
                 }
             }
         }
