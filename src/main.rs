@@ -95,15 +95,7 @@ fn main() {
                     }
                     _ => println!("SLASH / null"),
                 },
-                ' ' | '\t' => {
-                    let end = chars.position(|x| x != ' ' && x != '\t');
-                    if let Some(pos) = end {
-                        chars.nth(pos - 1);
-                        continue;
-                    } else {
-                        break;
-                    }
-                }
+                ' ' | '\t' | '\r' => continue,
                 '\n' => line_nb += 1,
                 a => {
                     eprintln!("[line {}] Error: Unexpected character: {}", line_nb, a);
