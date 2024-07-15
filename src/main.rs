@@ -57,7 +57,7 @@ fn main() {
                         chars.nth(0);
                         continue;
                     }
-                    _ => println!("EQUAL = null"), // this is being skipped:
+                    _ => println!("EQUAL = null"),
                 },
                 '!' => match chars.peek() {
                     Some('=') => {
@@ -65,7 +65,23 @@ fn main() {
                         chars.nth(0);
                         continue;
                     }
-                    _ => println!("BANG ! null"), // this is being skipped:
+                    _ => println!("BANG ! null"),
+                },
+                '<' => match chars.peek() {
+                    Some('=') => {
+                        println!("LESS_EQUA <= null");
+                        chars.nth(0);
+                        continue;
+                    }
+                    _ => println!("LESS < null"),
+                },
+                '>' => match chars.peek() {
+                    Some('>') => {
+                        println!("MORE_EQUA >= null");
+                        chars.nth(0);
+                        continue;
+                    }
+                    _ => println!("MORE > null"),
                 },
                 '\n' => line_nb += 1,
                 a => {
