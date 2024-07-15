@@ -61,11 +61,11 @@ fn main() {
                 },
                 '!' => match chars.peek() {
                     Some('=') => {
-                        println!("EQUAL_EQUAL != null");
+                        println!("BANG_EQUAL != null");
                         chars.nth(0);
                         continue;
                     }
-                    _ => println!("EQUAL ! null"), // this is being skipped:
+                    _ => println!("BANG ! null"), // this is being skipped:
                 },
                 '\n' => line_nb += 1,
                 a => {
