@@ -77,11 +77,11 @@ fn main() {
                 },
                 '>' => match chars.peek() {
                     Some('>') => {
-                        println!("MORE_EQUA >= null");
+                        println!("GREATER_EQUA >= null");
                         chars.nth(0);
                         continue;
                     }
-                    _ => println!("MORE > null"),
+                    _ => println!("GREATER > null"),
                 },
                 '\n' => line_nb += 1,
                 a => {
