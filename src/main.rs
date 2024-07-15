@@ -39,8 +39,8 @@ fn main() {
         let mut return_code = 0;
         let mut line_nb = 1;
         let mut chars = input.chars().peekable();
-        while let Some(char) = chars.next() {
-            match char {
+        while let Some(char_current) = chars.next() {
+            match char_current {
                 '(' => println!("LEFT_PAREN ( null"),
                 ')' => println!("RIGHT_PAREN ) null"),
                 '{' => println!("LEFT_BRACE {{ null"),
@@ -57,7 +57,7 @@ fn main() {
                         chars.nth(1);
                         continue;
                     }
-                    a => println!("EQUAL = null"),
+                    _ => println!("EQUAL = null"), // this is being skipped:
                 },
                 '\n' => line_nb += 1,
                 a => {
@@ -66,7 +66,7 @@ fn main() {
                 }
             }
         }
-        println!("EOF  null"); // Placeholder, remove this line when implementing the scanner
+        println!("EOF  null");
         if return_code != 0 {
             exit(return_code)
         }
