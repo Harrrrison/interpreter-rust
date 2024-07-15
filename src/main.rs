@@ -59,6 +59,14 @@ fn main() {
                     }
                     _ => println!("EQUAL = null"), // this is being skipped:
                 },
+                '!' => match chars.peek() {
+                    Some('=') => {
+                        println!("EQUAL_EQUAL != null");
+                        chars.nth(0);
+                        continue;
+                    }
+                    _ => println!("EQUAL ! null"), // this is being skipped:
+                },
                 '\n' => line_nb += 1,
                 a => {
                     eprintln!("[line {}] Error: Unexpected character: {}", line_nb, a);
