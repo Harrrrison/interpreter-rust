@@ -101,6 +101,7 @@ fn main() {
                     // should do multi line
                     eprintln!("[line {}] Error: Unexpected character: {}", line_nb, a);
                     return_code = 65;
+                    continue;
                 }
             }
         }
