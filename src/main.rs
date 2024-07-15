@@ -98,7 +98,7 @@ fn main() {
                 ' ' | '\t' => {
                     let end = chars.position(|x| x != ' ' && x != '\t');
                     if let Some(pos) = end {
-                        chars.nth(pos);
+                        chars.nth(pos - 1);
                         continue;
                     } else {
                         break;
