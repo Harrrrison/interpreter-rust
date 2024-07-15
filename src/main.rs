@@ -77,7 +77,7 @@ fn main() {
                 },
                 '>' => match chars.peek() {
                     Some('=') => {
-                        println!("GREATER_EQUA >= null");
+                        println!("GREATER_EQUAL >= null");
                         chars.nth(0);
                         continue;
                     }
