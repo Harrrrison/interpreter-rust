@@ -83,6 +83,18 @@ fn main() {
                     }
                     _ => println!("GREATER > null"),
                 },
+                '/' => match chars.peek() {
+                    Some('/') => {
+                        let end = chars.position(|x| x == '\n');
+                        if let Some(pos) = end {
+                            chars.nth(pos);
+                            continue;
+                        } else {
+                            break;
+                        }
+                    }
+                    _ => println!("SLASH / null"),
+                },
                 '\n' => line_nb += 1,
                 a => {
                     eprintln!("[line {}] Error: Unexpected character: {}", line_nb, a);
