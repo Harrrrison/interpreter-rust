@@ -98,6 +98,7 @@ fn main() {
                 ' ' | '\t' | '\r' => continue,
                 '\n' => line_nb += 1,
                 a => {
+                    // should do multi line
                     eprintln!("[line {}] Error: Unexpected character: {}", line_nb, a);
                     return_code = 65;
                 }
