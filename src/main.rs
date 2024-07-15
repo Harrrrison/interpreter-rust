@@ -69,7 +69,7 @@ fn main() {
                 },
                 '<' => match chars.peek() {
                     Some('=') => {
-                        println!("LESS_EQUA <= null");
+                        println!("LESS_EQUAL <= null");
                         chars.nth(0);
                         continue;
                     }
