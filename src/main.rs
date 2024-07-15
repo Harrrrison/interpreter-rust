@@ -37,7 +37,7 @@ fn main() {
     // bad practice need to use a seperate file for the lexr secion
     fn tokenize(input: &str) -> i32 {
         let mut return_code = 0;
-        let mut line_nb = 0;
+        let mut line_nb = 1;
         let mut chars = input.chars().peekable();
         while let Some(char_current) = chars.next() {
             match char_current {
