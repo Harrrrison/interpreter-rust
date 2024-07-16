@@ -141,7 +141,7 @@ fn main() {
                         out_number.pop();
                     }
                     let out_numeber_float = out_number.parse::<f64>().unwrap();
-                    println!("NUMBER {} {}", out_number, out_numeber_float);
+                    println!("NUMBER {} {:.1}", out_number, out_numeber_float);
                 }
                 a => {
                     eprintln!("[line {}] Error: Unexpected character: {}", line_nb, a);
