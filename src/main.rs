@@ -95,6 +95,24 @@ fn main() {
                     }
                     _ => println!("SLASH / null"),
                 },
+                '"' => {
+                    let mut string_tok = String::from("");
+                    while let Some(next_char) = chars.next() {
+                        match next_char {
+                            '\n' => {
+                                eprintln!("[line {}] Error: Unterminated string", line_nb);
+                                line_nb += 1;
+                                break;
+                            }
+                            '"' => {
+                                println!("STRING \"{}\" {}", string_tok, string_tok);
+                                break;
+                            }
+                            a => string_tok.push(a),
+                        }
+                    }
+                }
+
                 ' ' | '\t' | '\r' => continue,
                 '\n' => line_nb += 1,
                 a => {
