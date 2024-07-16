@@ -137,7 +137,7 @@ fn main() {
                             break;
                         }
                     }
-                    if out_number.ends_with('.') {
+                    if out_number.ends_with('.') && point {
                         out_number.pop();
                         println!("DOT . null"); // this is a stupid and quick fix and will need to be refactored
                     }
