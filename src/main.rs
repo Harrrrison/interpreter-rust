@@ -84,13 +84,12 @@ fn main() {
                 },
                 '/' => match chars.peek() {
                     Some('/') => {
-                        let end = chars.position(|x| x == '\n');
-                        line_nb += 1;
-                        if let Some(pos) = end {
-                            chars.nth(pos);
-                            break;
-                        } else {
-                            break;
+                        chars.next(); // Consume the '/' character
+                        while let Some(&next_char) = chars.peek() {
+                            if next_char == '\n' {
+                                break;
+                            }
+                            chars.next(); // Consume characters until end of line
                         }
                     }
                     _ => println!("SLASH / null"),
