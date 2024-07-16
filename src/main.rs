@@ -97,6 +97,7 @@ fn main() {
                 },
                 '"' => {
                     let mut string_tok = String::from("");
+                    let mut ending = false;
                     while let Some(next_char) = chars.next() {
                         match next_char {
                             '\n' => {
@@ -106,12 +107,13 @@ fn main() {
                             }
                             '"' => {
                                 println!("STRING \"{}\" {}", string_tok, string_tok);
+                                ending = true;
                                 break;
                             }
                             a => string_tok.push(a),
                         }
                     }
-                    if !chars.peek().is_some() && !string_tok.ends_with('"') {
+                    if !chars.peek().is_some() && !ending {
                         eprintln!("[line {}] Error: Unterminated string", line_nb);
                         return_code = 65;
                     }
