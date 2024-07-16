@@ -102,6 +102,7 @@ fn main() {
                             '\n' => {
                                 eprintln!("[line {}] Error: Unterminated string", line_nb);
                                 line_nb += 1;
+                                return_code = 65;
                                 break;
                             }
                             '"' => {
