@@ -23,10 +23,11 @@ fn main() {
                 String::new()
             });
 
+            write!(file_contents);
+
             if !file_contents.is_empty() {
                 tokenize(&file_contents);
             } else {
-                println!("EOF  null"); // Placeholder, remove this line when implementing the scanner
             }
         }
         _ => {
@@ -88,7 +89,6 @@ fn main() {
                         let end = chars.position(|x| x == '\n');
                         if let Some(pos) = end {
                             chars.nth(pos);
-                            line_nb += 1;
                             continue;
                         } else {
                             break;
