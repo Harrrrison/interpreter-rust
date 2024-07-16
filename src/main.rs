@@ -101,7 +101,7 @@ fn main() {
                     while let Some(next_char) = chars.next() {
                         match next_char {
                             '\n' => {
-                                eprintln!("[line {}] Error: Unterminated string", line_nb);
+                                eprintln!("[line {}] Error: Unterminated string.", line_nb);
                                 line_nb += 1;
                                 break;
                             }
@@ -114,7 +114,7 @@ fn main() {
                         }
                     }
                     if !chars.peek().is_some() && !ending {
-                        eprintln!("[line {}] Error: Unterminated string", line_nb);
+                        eprintln!("[line {}] Error: Unterminated string.", line_nb);
                         return_code = 65;
                     }
                 }
