@@ -139,6 +139,7 @@ fn main() {
                     }
                     if out_number.ends_with('.') {
                         out_number.pop();
+                        println!("DOT . null"); // this is a stupid and quick fix and will need to be refactored
                     }
                     let out_numeber_float = out_number.parse::<f64>().unwrap();
                     println!("NUMBER {} {:?}", out_number, out_numeber_float);
