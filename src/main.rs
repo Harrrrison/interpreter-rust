@@ -88,6 +88,7 @@ fn main() {
                         let end = chars.position(|x| x == '\n');
                         if let Some(pos) = end {
                             chars.nth(pos);
+                            line_nb += 1;
                             continue;
                         } else {
                             break;
