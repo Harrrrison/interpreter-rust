@@ -85,10 +85,9 @@ fn main() {
                 '/' => match chars.peek() {
                     Some('/') => {
                         let end = chars.position(|x| x == '\n');
-                        line_nb += 1;
                         if let Some(pos) = end {
                             chars.nth(pos);
-                            break;
+                            continue;
                         } else {
                             break;
                         }
