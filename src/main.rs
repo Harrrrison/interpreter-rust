@@ -112,6 +112,10 @@ fn main() {
                             a => string_tok.push(a),
                         }
                     }
+                    if !chars.peek().is_some() && !string_tok.ends_with('"') {
+                        eprintln!("[line {}] Error: Unterminated string", line_nb);
+                        return_code = 65;
+                    }
                 }
 
                 ' ' | '\t' | '\r' => continue,
