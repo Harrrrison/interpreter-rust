@@ -124,8 +124,13 @@ fn main() {
                 '\n' => line_nb += 1,
                 a if a.is_digit(10) => {
                     let mut out_numeber = a.to_string();
+                    let mut point = false;
                     while let Some(next_char) = chars.peek() {
-                        if next_char.is_digit(10) || *next_char == '.' {
+                        if next_char.is_digit(10) {
+                            out_numeber.push(*next_char);
+                            chars.next();
+                        } else if *next_char == '.' && !point {
+                            point = true;
                             out_numeber.push(*next_char);
                             chars.next();
                         } else {
