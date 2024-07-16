@@ -40,7 +40,6 @@ fn main() {
         let mut return_code = 0;
         let mut line_nb = 1;
         let mut chars = input.chars().peekable();
-        let number_re = Regex::new(r"^\d+(\.\d+)?").unwrap();
         while let Some(char_current) = chars.next() {
             match char_current {
                 '(' => println!("LEFT_PAREN ( null"),
