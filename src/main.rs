@@ -26,6 +26,7 @@ fn main() {
             if !file_contents.is_empty() {
                 tokenize(&file_contents);
             } else {
+                println!("EOF  null")
             }
         }
         _ => {
