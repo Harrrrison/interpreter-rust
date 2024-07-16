@@ -137,7 +137,8 @@ fn main() {
                             break;
                         }
                     }
-                    println!("NUMBER {} {}", out_numeber, out_numeber);
+                    let out_numeber_int = out_numeber.parse::<i32>().unwrap();
+                    println!("NUMBER {} {}", out_numeber, out_numeber_int);
                 }
                 a => {
                     eprintln!("[line {}] Error: Unexpected character: {}", line_nb, a);
