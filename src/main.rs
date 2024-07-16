@@ -2,6 +2,7 @@ use std::env;
 use std::fs;
 use std::io::{self, Write};
 use std::process::exit;
+// use regex::Regex; this is abit studpif and annoying
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -39,6 +40,7 @@ fn main() {
         let mut return_code = 0;
         let mut line_nb = 1;
         let mut chars = input.chars().peekable();
+        let number_re = Regex::new(r"^\d+(\.\d+)?").unwrap();
         while let Some(char_current) = chars.next() {
             match char_current {
                 '(' => println!("LEFT_PAREN ( null"),
@@ -121,6 +123,18 @@ fn main() {
 
                 ' ' | '\t' | '\r' => continue,
                 '\n' => line_nb += 1,
+                a if a.is_digit(10) => {
+                    let out_numeber = a.to_string();
+                    while let Some(next_char) = chars.peek() {
+                        if next_char.is_digit(10) || *next_char == '.' {
+                            out_numeber.push(*next_char);
+                            chars.next();
+                        } else {
+                            break;
+                        }
+                    }
+                    println!("NUMBER {} {}", out_numeber, out_numeber);
+                }
                 a => {
                     eprintln!("[line {}] Error: Unexpected character: {}", line_nb, a);
                     return_code = 65;
