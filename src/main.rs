@@ -123,7 +123,7 @@ fn main() {
                 ' ' | '\t' | '\r' => continue,
                 '\n' => line_nb += 1,
                 a if a.is_digit(10) => {
-                    let out_numeber = a.to_string();
+                    let mut out_numeber = a.to_string();
                     while let Some(next_char) = chars.peek() {
                         if next_char.is_digit(10) || *next_char == '.' {
                             out_numeber.push(*next_char);
