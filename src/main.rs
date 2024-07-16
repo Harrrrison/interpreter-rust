@@ -137,7 +137,7 @@ fn main() {
                             break;
                         }
                     }
-                    let out_numeber_int = out_numeber.parse::<i32>().unwrap();
+                    let out_numeber_int = out_numeber.parse::<f32>().unwrap();
                     println!("NUMBER {} {}", out_numeber, out_numeber_int);
                 }
                 a => {
