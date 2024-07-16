@@ -112,6 +112,9 @@ fn main() {
                             a => string_tok.push(a),
                         }
                     }
+                    eprintln!("[line {}] Error: Unterminated string", line_nb);
+                    line_nb += 1;
+                    return_code = 65;
                 }
 
                 ' ' | '\t' | '\r' => continue,
