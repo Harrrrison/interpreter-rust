@@ -123,22 +123,25 @@ fn main() {
                 ' ' | '\t' | '\r' => continue,
                 '\n' => line_nb += 1,
                 a if a.is_digit(10) => {
-                    let mut out_numeber = a.to_string();
+                    let mut out_number = a.to_string();
                     let mut point = false;
                     while let Some(next_char) = chars.peek() {
                         if next_char.is_digit(10) {
-                            out_numeber.push(*next_char);
+                            out_number.push(*next_char);
                             chars.next();
                         } else if *next_char == '.' && !point {
                             point = true;
-                            out_numeber.push(*next_char);
+                            out_number.push(*next_char);
                             chars.next();
                         } else {
                             break;
                         }
                     }
-                    let out_numeber_int = out_numeber.parse::<f32>().unwrap();
-                    println!("NUMBER {} {}", out_numeber, out_numeber_int);
+                    let out_numeber_float = out_number.parse::<f64>().unwrap();
+                    println!("NUMBER {} {}", out_number, out_numeber_float);
+                    if out_number.ends_with('.') {
+                        out_number.pop();
+                    }
                 }
                 a => {
                     eprintln!("[line {}] Error: Unexpected character: {}", line_nb, a);
