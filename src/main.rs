@@ -200,7 +200,7 @@ fn main() {
                     let out_numeber_float = out_number.parse::<f64>().unwrap();
                     println!("NUMBER {} {:?}", out_number, out_numeber_float);
                 }
-                a if a.is_alphanumeric() => {
+                a if a.is_alphanumeric() || a == '_' => {
                     let mut toke_out = String::from(a);
                     while let Some(&next_char) = chars.peek() {
                         if next_char.is_alphanumeric() {
