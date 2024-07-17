@@ -304,9 +304,11 @@ fn main() {
                     println!("NUMBER {} {:?}", out_number, out_numeber_float);
                 }
                 a if a.is_alphanumeric() || a == '_' => {
+                    // pretty sure this '_' could be
+                    // implemented better
                     let mut toke_out = String::from(a);
                     while let Some(&next_char) = chars.peek() {
-                        if next_char.is_alphanumeric() {
+                        if next_char.is_alphanumeric() || next_char == '_' {
                             toke_out.push(next_char);
                             chars.next();
                         } else {
