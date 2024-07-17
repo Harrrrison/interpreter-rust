@@ -316,8 +316,9 @@ fn main() {
 
                     if let Some(token_type) = keywords.get(&toke_out.as_str()) {
                         println!("{} {} null", token_type, toke_out)
+                    } else {
+                        println!("IDENTIFIER {} null", toke_out);
                     }
-                    println!("IDENTIFIER {} null", toke_out);
                 }
                 a => {
                     eprintln!("[line {}] Error: Unexpected character: {}", line_nb, a);
