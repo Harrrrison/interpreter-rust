@@ -3,8 +3,12 @@ use std::fs;
 use std::io::{self, Write};
 use std::process::exit;
 // use regex::Regex; this is abit studpif and annoying
+use std::collections::HashMap;
+use std::fmt;
+use std::sync::Once;
 
 pub enum Token {
+    // need to capitalise
     LeftParen,
 
     RightParen,
@@ -49,10 +53,107 @@ pub enum Token {
 
     Identifier(String),
 
+    AND,
+    CLASS,
+    ELSE,
+    FALSE,
+    FOR,
+    FUN,
+    IF,
+    NIL,
+    OR,
+    PRINT,
+    RETURN,
+    SUPER,
+    THIS,
+    TRUE,
+    VAR,
+    WHILE,
+
     EOF,
 }
 
-pub enum KeyWords {}
+impl fmt::Display for Token {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            Token::LeftParen => write!(f, "LEFT_PAREN"),
+            Token::RightParen => write!(f, "RIGHT_PAREN"),
+            Token::LeftBrace => write!(f, "LEFT_BRACE"),
+            Token::RightBrace => write!(f, "RIGHT_BRACE"),
+            Token::Star => write!(f, "STAR"),
+            Token::Dot => write!(f, "DOT"),
+            Token::Comma => write!(f, "COMMA"),
+            Token::Plus => write!(f, "PLUS"),
+            Token::Minus => write!(f, "MINUS"),
+            Token::EqualEqual => write!(f, "EQUAL_EQUAL"),
+            Token::Equal => write!(f, "EQUAL"),
+            Token::BangEqual => write!(f, "BANG_EQUAL"),
+            Token::Bang => write!(f, "BANG"),
+            Token::LessEqual => write!(f, "LESS_EQUAL"),
+            Token::Less => write!(f, "LESS"),
+            Token::GreaterEqual => write!(f, "GREATER_EQUAL"),
+            Token::Greater => write!(f, "GREATER"),
+            Token::SemiColon => write!(f, "SEMICOLON"),
+            Token::Slash => write!(f, "SLASH"),
+            Token::String(value) => write!(f, "STRING({})", value),
+            Token::Number(value) => write!(f, "NUMBER({})", value),
+            Token::Identifier(value) => write!(f, "IDENTIFIER({})", value),
+            Token::AND => write!(f, "AND"),
+            Token::CLASS => write!(f, "CLASS"),
+            Token::ELSE => write!(f, "ELSE"),
+            Token::FALSE => write!(f, "FALSE"),
+            Token::FOR => write!(f, "FOR"),
+            Token::FUN => write!(f, "FUN"),
+            Token::IF => write!(f, "IF"),
+            Token::NIL => write!(f, "NIL"),
+            Token::OR => write!(f, "OR"),
+            Token::PRINT => write!(f, "PRINT"),
+            Token::RETURN => write!(f, "RETURN"),
+            Token::SUPER => write!(f, "SUPER"),
+            Token::THIS => write!(f, "THIS"),
+            Token::TRUE => write!(f, "TRUE"),
+            Token::VAR => write!(f, "VAR"),
+            Token::WHILE => write!(f, "WHILE"),
+            Token::EOF => write!(f, "EOF"),
+        }
+    }
+}
+
+static INIT: Once = Once::new();
+static mut KEYWORDS: Option<HashMap<&'static str, Token>> = None;
+
+fn initialise_keywords() {
+    let mut m = HashMap::new();
+    m.insert("and", Token::AND);
+    m.insert("class", Token::CLASS);
+    m.insert("else", Token::ELSE);
+    m.insert("false", Token::FALSE);
+    m.insert("for", Token::FOR);
+    m.insert("fun", Token::FUN);
+    m.insert("if", Token::IF);
+    m.insert("nil", Token::NIL);
+    m.insert("or", Token::OR);
+    m.insert("print", Token::PRINT);
+    m.insert("return", Token::RETURN);
+    m.insert("super", Token::SUPER);
+    m.insert("this", Token::THIS);
+    m.insert("true", Token::TRUE);
+    m.insert("var", Token::VAR);
+    m.insert("while", Token::WHILE);
+
+    unsafe {
+        KEYWORDS = Some(m);
+    }
+}
+
+fn get_keywords() -> &'static HashMap<&'static str, Token> {
+    unsafe {
+        INIT.call_once(|| {
+            initialise_keywords();
+        });
+        KEYWORDS.as_ref().unwrap()
+    }
+}
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -89,6 +190,8 @@ fn main() {
     fn tokenize(input: &str) -> i32 {
         let mut return_code = 0;
         let mut line_nb = 1;
+
+        let keywords = get_keywords();
         let mut chars = input.chars().peekable();
         while let Some(char_current) = chars.next() {
             match char_current {
@@ -209,6 +312,10 @@ fn main() {
                         } else {
                             break;
                         }
+                    }
+
+                    if let Some(token_type) = keywords.get(&toke_out.as_str()) {
+                        println!("{} {} null", token_type, toke_out)
                     }
                     println!("IDENTIFIER {} null", toke_out);
                 }
