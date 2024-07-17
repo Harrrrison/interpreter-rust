@@ -201,7 +201,7 @@ fn main() {
                     println!("NUMBER {} {:?}", out_number, out_numeber_float);
                 }
                 a if a.is_alphabetic() => {
-                    let mut toke_out = String::from("");
+                    let mut toke_out = String::from(a);
                     while let Some(&next_char) = chars.peek() {
                         if next_char.is_alphanumeric() {
                             toke_out.push(next_char);
