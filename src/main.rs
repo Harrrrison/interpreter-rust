@@ -125,19 +125,25 @@ fn main() {
                 a if a.is_digit(10) => {
                     let mut out_number = a.to_string();
                     let mut point = false;
-                    while let Some(next_char) = chars.peek() {
+                    while let Some(&next_char) = chars.peek() {
                         if next_char.is_digit(10) {
-                            out_number.push(*next_char);
+                            out_number.push(next_char);
                             chars.next();
-                        } else if *next_char == '.' && !point {
-                            point = true;
-                            out_number.push(*next_char);
-                            chars.next();
+                        } else if next_char == '.' && !point {
+                            let mut chars_clone = chars.clone();
+                            chars_clone.next();
+                            if let Some(&next_next_char) = chars_clone.peek() {
+                                point = true;
+                                out_number.push(next_char);
+                                chars.next();
+                            } else {
+                                break;
+                            }
                         } else {
                             break;
                         }
                     }
-                    if out_number.ends_with('.') && point {
+                    if out_number.ends_with('.') {
                         out_number.pop();
                         println!("DOT . null"); // this is a stupid and quick fix and will need to be refactored
                     }
