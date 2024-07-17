@@ -4,6 +4,56 @@ use std::io::{self, Write};
 use std::process::exit;
 // use regex::Regex; this is abit studpif and annoying
 
+pub enum Token {
+    LeftParen,
+
+    RightParen,
+
+    LeftBrace,
+
+    RightBrace,
+
+    Star,
+
+    Dot,
+
+    Comma,
+
+    Plus,
+
+    Minus,
+
+    EqualEqual,
+
+    Equal,
+
+    BangEqual,
+
+    Bang,
+
+    LessEqual,
+
+    Less,
+
+    GreaterEqual,
+
+    Greater,
+
+    SemiColon,
+
+    Slash,
+
+    String(String),
+
+    Number(String),
+
+    Identifier(String),
+
+    EOF,
+}
+
+pub enum KeyWords {}
+
 fn main() {
     let args: Vec<String> = env::args().collect();
     if args.len() < 3 {
@@ -149,6 +199,18 @@ fn main() {
                     }
                     let out_numeber_float = out_number.parse::<f64>().unwrap();
                     println!("NUMBER {} {:?}", out_number, out_numeber_float);
+                }
+                a if a.is_alphabetic() => {
+                    let mut toke_out = String::from("");
+                    while let Some(&next_char) = chars.peek() {
+                        if next_char.is_alphanumeric() {
+                            toke_out.push(next_char);
+                            chars.next();
+                        } else {
+                            break;
+                        }
+                    }
+                    println!("IDENTIFIER {} null", toke_out);
                 }
                 a => {
                     eprintln!("[line {}] Error: Unexpected character: {}", line_nb, a);
