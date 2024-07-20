@@ -1,4 +1,19 @@
-use crate::scanner::TokenType;
+use std::f32::consts::E;
+use crate::scanner;
+use crate::scanner::{TokenType, Literal, Token};
+
+/*
+Grammar:
+expression     → equality ;
+equality       → comparison ( ( "!=" | "==" ) comparison )* ;
+comparison     → term ( ( ">" | ">=" | "<" | "<=" ) term )* ;
+term           → factor ( ( "-" | "+" ) factor )* ;
+factor         → unary ( ( "/" | "*" ) unary )* ;
+unary          → ( "!" | "-" ) unary
+               | primary ;
+primary        → NUMBER | STRING | "true" | "false" | "nil"
+               | "(" expression ")" ;
+ */
 
 #[derive(Debug, Clone)]
 enum Expr {
@@ -26,21 +41,13 @@ impl Expr {
     }
 }
 
-#[derive(Debug, Clone)]
-enum Literal {
-    Number(f64),
-    String(String),
-    Bool(bool),
-    Nil,
-}
-
 pub struct Parser {
-    tokens: Vec<TokenType>,
+    tokens: Vec<Token>,
     current: usize,
 }
 
 impl Parser {
-    pub fn new(tokens_vector: Vec<TokenType>) -> Self {
+    pub fn new(tokens_vector: Vec<Token>) -> Self {
         Self {
             tokens: tokens_vector,
             current: 0,
@@ -55,9 +62,9 @@ impl Parser {
         let mut expr = self.comparison();
 
         while self.match_tokens(&[TokenType::BangEqual, TokenType::EqualEqual]) {
-            let operator = self.previous().clone();
+            let operator = self.previous().token_type.clone();
             let right = self.comparison();
-            expr = Expr::new_binary(expr, operator, right);
+            expr = Expr::new_binary(expr, operator, right); // where right is the operand
         }
 
         expr
@@ -66,15 +73,72 @@ impl Parser {
     fn comparison(&mut self) -> Expr {
         // Implement comparison function based on grammar
         // Similar to equality, but with comparison operators
-        unimplemented!()
+        let mut expr = self.term();
+        while self.match_tokens(&[TokenType::Greater, TokenType::GreaterEqual,
+            TokenType::Less, TokenType::LessEqual]){
+            let operator = self.previous().token_type.clone();
+            let right = self.comparison();
+            expr = Expr::new_binary(expr, operator, right);
+        }
+
+        expr
+    }
+
+    fn term(&mut self) -> Expr{
+        let mut expr = self.factor();
+
+        while self.match_tokens(&[TokenType::Minus, TokenType::Plus]){
+            let operator = self.previous().token_type.clone();
+            let right = self.factor();
+            expr  = Expr::new_binary(expr, operator, right)
+        }
+
+        expr
+    }
+
+    fn factor(&mut self) -> Expr{
+        let mut expr = self.factor();
+
+        while self.match_tokens(&[TokenType::Slash, TokenType::Star]) {
+let operator = self.previous().token_type.clone();
+            let right = self.factor();
+            expr = Expr::new_binary(expr, operator, right);
+        }
+
+        expr
     }
 
     fn match_tokens(&mut self, types: &[TokenType]) -> bool {
         // Implement match function to check for token types
-        unimplemented!()
+        for token_type  in  types{
+if (self.check(token_type)){
+    self.advance();
+    return true
+}
+        }
+    false
     }
 
-    fn previous(&self) -> &TokenType {
-        &self.tokens[self.current - 1]
+    fn check(&self, token_type: &TokenType) -> bool{
+        if (self.isAtEnd()){ return false;}
+        matches!(self.peek().token_type, TokenType::Eof)
     }
+
+    fn advance(&self) -> &Token{
+        if(!self.isAtEnd()){Self.current +=1}
+        return self.previous();
+    }
+
+    fn isAtEnd(&self) -> bool{
+        matches!(self.peek().token_type, TokenType::Eof)
+    }
+
+    fn peek(&self) -> &Token{
+        &self.tokens[self.current]
+    }
+
+    fn previous(&self) -> &Token {
+        &self.tokens[self.current - 1]    }
+
+
 }
