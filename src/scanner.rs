@@ -112,7 +112,7 @@ static INIT: Once = Once::new();
 static mut KEYWORDS: Option<HashMap<&'static str, TokenType>> = None;
 
 pub struct Scanner {
-    pub tokens: Vec<TokenType>,
+    pub tokens: Vec<Token>,
     line: usize,
 }
 
@@ -136,7 +136,12 @@ impl Scanner {
                     let char_str = &char_current.to_string();
                     if let Some(token_type) = keywords.get(char_str.as_str()) {
                         println!("{} {} null", token_type, char_current);
-                        self.tokens.push(token_type.clone());
+                        self.tokens.push(Token{
+                            token_type: token_type.clone(),
+                            lexeme: char_str.clone(),
+                            literal: None,
+                            line: line_nb,
+                        });
                     } else {
                         eprintln!(
                             "[line {}] Error: Unexpected character: {}",
@@ -149,48 +154,88 @@ impl Scanner {
                     Some('=') => {
                         println!("EQUAL_EQUAL == null");
                         chars.nth(0);
-                        self.tokens.push(TokenType::EqualEqual);
+                        self.tokens.push(Token {
+                            token_type: TokenType::EqualEqual,
+                            lexeme: "==".to_string(),
+                            literal: None,
+                            line: line_nb,
+                        });
                         continue;
                     }
                     _ => {
                         println!("EQUAL = null");
-                        self.tokens.push(TokenType::Equal);
+                        self.tokens.push(Token {
+                            token_type: TokenType::Equal,
+                            lexeme: "=".to_string(),
+                            literal: None,
+                            line: line_nb,
+                        });
                     }
                 },
                 '!' => match chars.peek() {
                     Some('=') => {
                         println!("BANG_EQUAL != null");
                         chars.nth(0);
-                        self.tokens.push(TokenType::BangEqual);
+                        self.tokens.push(Token {
+                            token_type: TokenType::BangEqual,
+                            lexeme: "!=".to_string(),
+                            literal: None,
+                            line: line_nb,
+                        });
                         continue;
                     }
                     _ => {
                         println!("BANG ! null");
-                        self.tokens.push(TokenType::Bang);
+                        self.tokens.push(Token {
+                            token_type: TokenType::Bang,
+                            lexeme: "!".to_string(),
+                            literal: None,
+                            line: line_nb,
+                        });
                     }
                 },
                 '<' => match chars.peek() {
                     Some('=') => {
                         println!("LESS_EQUAL <= null");
                         chars.nth(0);
-                        self.tokens.push(TokenType::LessEqual);
+                        self.tokens.push(Token {
+                            token_type: TokenType::LessEqual,
+                            lexeme: "<=".to_string(),
+                            literal: None,
+                            line: line_nb,
+                        });
                         continue;
                     }
                     _ => {
                         println!("LESS < null");
-                        self.tokens.push(TokenType::Less);
+                        self.tokens.push(Token {
+                            token_type: TokenType::Less,
+                            lexeme: "<".to_string(),
+                            literal: None,
+                            line: line_nb,
+                        });
                     }
                 },
                 '>' => match chars.peek() {
                     Some('=') => {
                         println!("GREATER_EQUAL >= null");
                         chars.nth(0);
-                        self.tokens.push(TokenType::GreaterEqual);
+                        self.tokens.push(Token {
+                            token_type: TokenType::GreaterEqual,
+                            lexeme: ">=".to_string(),
+                            literal: None,
+                            line: line_nb,
+                        });
                         continue;
                     }
                     _ => {
                         println!("GREATER > null");
-                        self.tokens.push(TokenType::Greater);
+                        self.tokens.push(Token {
+                            token_type: TokenType::Greater,
+                            lexeme: ">".to_string(),
+                            literal: None,
+                            line: line_nb,
+                        });
                     }
                 },
                 '/' => match chars.peek() {
@@ -205,7 +250,12 @@ impl Scanner {
                     }
                     _ => {
                         println!("SLASH / null");
-                        self.tokens.push(TokenType::Slash);
+                        self.tokens.push(Token {
+                            token_type: TokenType::Slash,
+                            lexeme: "/".to_string(),
+                            literal: None,
+                            line: line_nb,
+                        });
                     }
                 },
                 '"' => {
@@ -221,7 +271,12 @@ impl Scanner {
                             '"' => {
                                 println!("STRING \"{}\" {}", string_tok, string_tok);
                                 ending = true;
-                                self.tokens.push(TokenType::String(string_tok));
+                                self.tokens.push(Token {
+                                    token_type: TokenType::String(string_tok.clone()),
+                                    lexeme: string_tok.clone(),
+                                    literal: Some(Literal::String(string_tok.clone())),
+                                    line: line_nb,
+                                });
                                 break;
                             }
                             a => string_tok.push(a),
@@ -261,7 +316,12 @@ impl Scanner {
                     }
                     let out_number_float = out_number.parse::<f64>().unwrap();
                     println!("NUMBER {} {:?}", out_number, out_number_float);
-                    self.tokens.push(TokenType::Number(out_number_float));
+                    self.tokens.push(Token {
+                        token_type: TokenType::Number(out_number_float),
+                        lexeme: out_number.clone(),
+                        literal: Some(Literal::Number(out_number_float)),
+                        line: line_nb,
+                    });
                 }
                 a if a.is_alphanumeric() || a == '_' => {
                     let mut token_out = String::from(a);
@@ -276,10 +336,20 @@ impl Scanner {
 
                     if let Some(token_type) = keywords.get(&token_out.as_str()) {
                         println!("{} {} null", token_type, token_out);
-                        self.tokens.push(token_type.clone());
+                        self.tokens.push(Token {
+                            token_type: token_type.clone(),
+                            lexeme: token_out.clone(),
+                            literal: None,
+                            line: line_nb,
+                        });
                     } else {
                         println!("IDENTIFIER {} null", token_out);
-                        self.tokens.push(TokenType::Identifier(token_out));
+                        self.tokens.push(Token {
+                            token_type: TokenType::Identifier(token_out.clone()),
+                            lexeme: token_out,
+                            literal: None,
+                            line: line_nb,
+                        });
                     }
                 }
                 a => {
@@ -296,7 +366,7 @@ impl Scanner {
     }
 }
 
-fn initialise_keywords() {
+fn initialise_keywords() { // prety skitz way of doing it could be simplified for sure -- for another day
     let mut m = HashMap::new();
 
     m.insert("(", TokenType::LeftParen);
