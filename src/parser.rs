@@ -1,5 +1,5 @@
 use std::f32::consts::E;
-use std::ptr::null;
+use std::ptr::{null, read};
 use crate::scanner;
 use crate::scanner::{TokenType, Literal, Token};
 use crate::scanner::Literal::Number;
@@ -116,7 +116,7 @@ let operator = self.previous().token_type.clone();
             return Expr::new_unary(operator, right);
         }
 
-        primary();
+        self.primary()
     }
 
     fn primary(&mut self) -> Expr{
@@ -126,10 +126,7 @@ let operator = self.previous().token_type.clone();
 
         if self.match_tokens(&[TokenType::Number, TokenType::String]){
             let token =  self.previous().clone();
-             match token.token_type {
-                 TokenType::Number => return Expr::new_literal(Literal::Number(token.literal.unwrap().clone()))
-             }
-            return Expr::new_literal(self.previous().literal.unwrap())
+            return Expr::new_literal(token.literal.clone().unwrap());
         }
 
         if self.match_tokens(&[TokenType::LeftParen]){
@@ -137,7 +134,17 @@ let operator = self.previous().token_type.clone();
             self.consume(TokenType::RightParen, "Expect ')' after expression.");
             return Expr::Grouping(Box::from(expr))
         }
+
+        panic!(self.peek(), "Unexpected token.");
     }
+
+    fn consume(&self, token_type: TokenType, message: &str) -> &Token{
+        if(self.check(&token_type)){return self.advance();}
+
+        panic!(self.peek(), message)
+    }
+
+
     fn match_tokens(&mut self, types: &[TokenType]) -> bool {
         // Implement match function to check for token types
         for token_type  in  types{
