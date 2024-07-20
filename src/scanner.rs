@@ -24,9 +24,9 @@ pub enum TokenType {
     Greater,
     SemiColon,
     Slash,
-    String(String),
-    Number(f64),
-    Identifier(String),
+    String,
+    Number,
+    Identifier,
     And,
     Class,
     Else,
@@ -54,6 +54,7 @@ pub enum Literal {
     Nil,
 }
 
+#[derive(Debug)]
 pub struct Token {
     pub token_type: TokenType,
     pub lexeme: String,
@@ -272,7 +273,7 @@ impl Scanner {
                                 println!("STRING \"{}\" {}", string_tok, string_tok);
                                 ending = true;
                                 self.tokens.push(Token {
-                                    token_type: TokenType::String(string_tok.clone()),
+                                    token_type: TokenType::String,
                                     lexeme: string_tok.clone(),
                                     literal: Some(Literal::String(string_tok.clone())),
                                     line: line_nb,
@@ -317,7 +318,7 @@ impl Scanner {
                     let out_number_float = out_number.parse::<f64>().unwrap();
                     println!("NUMBER {} {:?}", out_number, out_number_float);
                     self.tokens.push(Token {
-                        token_type: TokenType::Number(out_number_float),
+                        token_type: TokenType::Number,
                         lexeme: out_number.clone(),
                         literal: Some(Literal::Number(out_number_float)),
                         line: line_nb,
@@ -345,7 +346,7 @@ impl Scanner {
                     } else {
                         println!("IDENTIFIER {} null", token_out);
                         self.tokens.push(Token {
-                            token_type: TokenType::Identifier(token_out.clone()),
+                            token_type: TokenType::Identifier,
                             lexeme: token_out,
                             literal: None,
                             line: line_nb,

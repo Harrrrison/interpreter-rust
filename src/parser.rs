@@ -1,7 +1,8 @@
 use std::f32::consts::E;
+use std::ptr::null;
 use crate::scanner;
 use crate::scanner::{TokenType, Literal, Token};
-
+use crate::scanner::Literal::Number;
 /*
 Grammar:
 expression     → equality ;
@@ -108,6 +109,35 @@ let operator = self.previous().token_type.clone();
         expr
     }
 
+    fn unary(&mut self) -> Expr{
+        if self.match_tokens(&[TokenType::Minus, TokenType::Bang]){
+            let operator = self.previous().token_type.clone();
+            let right = self.unary();
+            return Expr::new_unary(operator, right);
+        }
+
+        primary();
+    }
+
+    fn primary(&mut self) -> Expr{
+        if self.match_tokens(&[TokenType::False]){return Expr::new_literal(Literal::Bool(false))}
+        if self.match_tokens(&[TokenType::True]){return Expr::new_literal(Literal::Bool(true))}
+        if self.match_tokens(&[TokenType::Nil]){return Expr::new_literal(Literal::Nil)}
+
+        if self.match_tokens(&[TokenType::Number, TokenType::String]){
+            let token =  self.previous().clone();
+             match token.token_type {
+                 TokenType::Number => return Expr::new_literal(Literal::Number(token.literal.unwrap().clone()))
+             }
+            return Expr::new_literal(self.previous().literal.unwrap())
+        }
+
+        if self.match_tokens(&[TokenType::LeftParen]){
+            let mut expr = self.expression();
+            self.consume(TokenType::RightParen, "Expect ')' after expression.");
+            return Expr::Grouping(Box::from(expr))
+        }
+    }
     fn match_tokens(&mut self, types: &[TokenType]) -> bool {
         // Implement match function to check for token types
         for token_type  in  types{
