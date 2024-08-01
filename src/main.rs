@@ -44,11 +44,11 @@ fn main() {
                 scanner.scan_and_tokenize(&file_contents);
                 println!("{:?}", scanner.tokens); // not needed I dont think
                 let mut parsed_file = parser::Parser::new(scanner.tokens);
-                parsed_file.
+                parsed_file.parse();
             } else {
                 println!("EOF  null")
             }
-
+        },
         _ => {
             writeln!(io::stderr(), "Unknown command: {}", command).unwrap();
             return;

@@ -1,4 +1,4 @@
-
+use std::panic::{self, UnwindSafe};
 use crate::scanner::{Literal, Token, TokenType};
 
 /*
@@ -31,6 +31,7 @@ enum Expr {
     Unary(TokenType, Box<Expr>),
     Literal(Literal),
     Grouping(Box<Expr>),
+    Error,
 }
 
 impl Expr {
@@ -202,11 +203,8 @@ impl Parser {
         &self.tokens[self.current - 1]
     }
 
-    fn parse(&mut self) -> Expr{
-        let option = None;
-        match self.expression() {
-            Ok(expr) => expr,
-            Err(_) => option,
-        } 
+    pub(crate) fn parse(&mut self) -> Expr{
+        panic::catch_unwind(UnwindSafe::new(|| self.expression())).unwrap_or_else(|_| Expr::Error)
+    }
     }
 }
