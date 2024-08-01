@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 use std::fmt;
+use std::fmt::{Formatter, write};
 use std::process::exit;
 use std::sync::Once;
 
@@ -63,7 +64,34 @@ pub struct Token {
 }
 // TODO: Need to change this from for TokenType to for Token so as to output the literal values
 // for the literals
-impl fmt::Display for TokenType {
+
+impl fmt::Display for Token {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(
+            f,
+            "{} {} {}",
+            self.token_type,
+            self.lexeme,
+            match &self.literal {
+                Some(literal) => format!("{}", literal),
+                None => "None".to_string(),
+            }
+        )
+    }
+}
+
+impl fmt::Display for Literal {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Literal::Number(value) => write!(f, "{}", value),
+            Literal::String(value) => write!(f, "{}", value),
+            Literal::Bool(value) => write!(f, "{}", value),
+            Literal::Nil => write!(f, "nil"),
+        }
+    }
+}
+
+impl std::fmt::Display for TokenType {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
             TokenType::LeftParen => write!(f, "LEFT_PAREN"),
