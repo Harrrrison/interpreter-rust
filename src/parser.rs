@@ -206,5 +206,4 @@ impl Parser {
     pub(crate) fn parse(&mut self) -> Expr{
         panic::catch_unwind(UnwindSafe::new(|| self.expression())).unwrap_or_else(|_| Expr::Error)
     }
-    }
 }
