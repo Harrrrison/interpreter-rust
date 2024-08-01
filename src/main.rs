@@ -29,7 +29,7 @@ fn main() {
             if !file_contents.is_empty() {
                 let mut scanner = Scanner::new();
                 scanner.scan_and_tokenize(&file_contents);
-                println!("{:?}", scanner.tokens);
+                println!("{:?}", scanner.tokens); // not needed I dont think
             } else {
                 println!("EOF  null")
             }

@@ -61,7 +61,8 @@ pub struct Token {
     pub literal: Option<Literal>,
     pub line: usize,
 }
-
+// TODO: Need to change this from for TokenType to for Token so as to output the literal values
+// for the literals
 impl fmt::Display for TokenType {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
@@ -84,9 +85,9 @@ impl fmt::Display for TokenType {
             TokenType::Greater => write!(f, "GREATER"),
             TokenType::SemiColon => write!(f, "SEMICOLON"),
             TokenType::Slash => write!(f, "SLASH"),
-            TokenType::String(value) => write!(f, "STRING({})", value),
-            TokenType::Number(value) => write!(f, "NUMBER({})", value),
-            TokenType::Identifier(value) => write!(f, "IDENTIFIER({})", value),
+            TokenType::String => write!(f, "STRING"),
+            TokenType::Number => write!(f, "NUMBER"),
+            TokenType::Identifier => write!(f, "IDENTIFIER"),
             TokenType::And => write!(f, "AND"),
             TokenType::Class => write!(f, "CLASS"),
             TokenType::Else => write!(f, "ELSE"),
