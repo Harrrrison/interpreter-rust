@@ -25,7 +25,7 @@ fn main() {
                 writeln!(io::stderr(), "Failed to read file {}", filename).unwrap();
                 String::new()
             });
-
+//TODO: implement the "parse" command
             if !file_contents.is_empty() {
                 let mut scanner = Scanner::new();
                 scanner.scan_and_tokenize(&file_contents);
@@ -34,6 +34,21 @@ fn main() {
                 println!("EOF  null")
             }
         }
+        "parse" => {
+            let file_contents = fs::read_to_string(filename).unwrap_or_else(|_| {
+                writeln!(io::stderr(), "Failed to read file {}", filename).unwrap();
+                String::new()
+            });
+            if !file_contents.is_empty() {
+                let mut scanner = Scanner::new();
+                scanner.scan_and_tokenize(&file_contents);
+                println!("{:?}", scanner.tokens); // not needed I dont think
+                let mut parsed_file = parser::Parser::new(scanner.tokens);
+                parsed_file.
+            } else {
+                println!("EOF  null")
+            }
+
         _ => {
             writeln!(io::stderr(), "Unknown command: {}", command).unwrap();
             return;

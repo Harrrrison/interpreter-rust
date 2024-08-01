@@ -14,6 +14,17 @@ primary        → NUMBER | STRING | "true" | "false" | "nil"
                | "(" expression ")" ;
  */
 
+#[derive(Debug)]
+struct ParseError;
+
+impl std::fmt::Display for ParseError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "Parse error")
+    }
+}
+
+impl std::error::Error for ParseError {}
+
 #[derive(Debug, Clone)]
 enum Expr {
     Binary(Box<Expr>, TokenType, Box<Expr>),
@@ -189,5 +200,13 @@ impl Parser {
 
     fn previous(&self) -> &Token {
         &self.tokens[self.current - 1]
+    }
+
+    fn parse(&mut self) -> Expr{
+        let option = None;
+        match self.expression() {
+            Ok(expr) => expr,
+            Err(_) => option,
+        } 
     }
 }
