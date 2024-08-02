@@ -1,3 +1,4 @@
+use std::cmp::PartialEq;
 use std::panic::{self, UnwindSafe};
 use crate::scanner::{Literal, Token, TokenType};
 
@@ -55,6 +56,12 @@ impl Expr {
 pub struct Parser {
     tokens: Vec<Token>,
     current: usize,
+}
+
+impl PartialEq for TokenType {
+    fn eq(&self, other: &Self) -> bool {
+    self.peek().token_type == other;
+    }
 }
 
 impl Parser {
@@ -116,7 +123,7 @@ impl Parser {
 
         while self.match_tokens(&[TokenType::Slash, TokenType::Star]) {
             let operator = self.previous().token_type.clone();
-            let right = self.factor();
+            let right = self.unary();
             expr = Expr::new_binary(expr, operator, right);
         }
 
@@ -178,20 +185,20 @@ impl Parser {
     }
 
     fn check(&self, token_type: &TokenType) -> bool {
-        if self.isAtEnd(){
+        if self.is_at_end(){
             return false;
         }
-        matches!(self.peek().token_type, TokenType::Eof)
+       self.peek().token_type == *token_type
     }
 
     fn advance(&mut self) -> &Token {
-        if !self.isAtEnd() {
+        if !self.is_at_end() {
             self.current += 1
         }
         return self.previous();
     }
 
-    fn isAtEnd(&self) -> bool {
+    fn is_at_end(&self) -> bool {
         matches!(self.peek().token_type, TokenType::Eof)
     }
 
@@ -203,8 +210,11 @@ impl Parser {
         &self.tokens[self.current - 1]
     }
 
-    pub(crate) fn parse(&mut self) -> Expr{
-        return self.expression(); // need a wauy to catch and prevent the errors
+    pub(crate) fn parse(&mut self) -> Expr {
+        match self.expression() {
+            Ok(expr) => expr,
+            Err(_) => Expr::Error,
+        }
     }
 
 }
