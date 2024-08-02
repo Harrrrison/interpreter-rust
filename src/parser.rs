@@ -60,7 +60,7 @@ pub struct Parser {
 
 impl PartialEq for TokenType {
     fn eq(&self, other: &Self) -> bool {
-    self.peek().token_type == other;
+    self == other
     }
 }
 
@@ -72,26 +72,24 @@ impl Parser {
         }
     }
 
-    pub fn expression(&mut self) -> Expr {
+    pub fn expression(&mut self) -> Result<Expr, ParseError> {
         self.equality()
     }
 
-    fn equality(&mut self) -> Expr {
-        let mut expr = self.comparison();
+    fn equality(&mut self) -> Result<Expr, ParseError> {
+        let mut expr = self.comparison()?;
 
         while self.match_tokens(&[TokenType::BangEqual, TokenType::EqualEqual]) {
             let operator = self.previous().token_type.clone();
-            let right = self.comparison();
-            expr = Expr::new_binary(expr, operator, right); // where right is the operand
+            let right = self.comparison()?;
+            expr = Expr::new_binary(expr, operator, right);
         }
 
-        expr
+        Ok(expr)
     }
 
-    fn comparison(&mut self) -> Expr {
-        // Implement comparison function based on grammar
-        // Similar to equality, but with comparison operators
-        let mut expr = self.term();
+    fn comparison(&mut self) -> Result<Expr, ParseError> {
+        let mut expr = self.term()?;
         while self.match_tokens(&[
             TokenType::Greater,
             TokenType::GreaterEqual,
@@ -99,82 +97,81 @@ impl Parser {
             TokenType::LessEqual,
         ]) {
             let operator = self.previous().token_type.clone();
-            let right = self.comparison();
+            let right = self.term()?;
             expr = Expr::new_binary(expr, operator, right);
         }
 
-        expr
+        Ok(expr)
     }
 
-    fn term(&mut self) -> Expr {
-        let mut expr = self.factor();
+    fn term(&mut self) -> Result<Expr, ParseError> {
+        let mut expr = self.factor()?;
 
         while self.match_tokens(&[TokenType::Minus, TokenType::Plus]) {
             let operator = self.previous().token_type.clone();
-            let right = self.factor();
+            let right = self.factor()?;
             expr = Expr::new_binary(expr, operator, right)
         }
 
-        expr
+        Ok(expr)
     }
 
-    fn factor(&mut self) -> Expr {
-        let mut expr = self.factor();
+    fn factor(&mut self) -> Result<Expr, ParseError> {
+        let mut expr = self.unary()?;
 
         while self.match_tokens(&[TokenType::Slash, TokenType::Star]) {
             let operator = self.previous().token_type.clone();
-            let right = self.unary();
+            let right = self.unary()?;
             expr = Expr::new_binary(expr, operator, right);
         }
 
-        expr
+        Ok(expr)
     }
 
-    fn unary(&mut self) -> Expr {
+    fn unary(&mut self) -> Result<Expr, ParseError> {
         if self.match_tokens(&[TokenType::Minus, TokenType::Bang]) {
             let operator = self.previous().token_type.clone();
-            let right = self.unary();
-            return Expr::new_unary(operator, right);
+            let right = self.unary()?;
+            return Ok(Expr::new_unary(operator, right));
         }
 
         self.primary()
     }
 
-    fn primary(&mut self) -> Expr { // cna refator this to a match statement
+    fn primary(&mut self) -> Result<Expr, ParseError> {
         if self.match_tokens(&[TokenType::False]) {
-            return Expr::new_literal(Literal::Bool(false));
+            return Ok(Expr::new_literal(Literal::Bool(false)));
         }
         if self.match_tokens(&[TokenType::True]) {
-            return Expr::new_literal(Literal::Bool(true));
+            return Ok(Expr::new_literal(Literal::Bool(true)));
         }
         if self.match_tokens(&[TokenType::Nil]) {
-            return Expr::new_literal(Literal::Nil);
+            return Ok(Expr::new_literal(Literal::Nil));
         }
 
         if self.match_tokens(&[TokenType::Number, TokenType::String]) {
             let token = self.previous().clone();
-            return Expr::new_literal(token.literal.clone().unwrap());
+            return Ok(Expr::new_literal(token.literal.clone().unwrap()));
         }
 
         if self.match_tokens(&[TokenType::LeftParen]) {
-            let mut expr = self.expression();
-            self.consume(TokenType::RightParen, "Expect ')' after expression.");
-            return Expr::Grouping(Box::from(expr));
+            let expr = self.expression()?;
+            self.consume(TokenType::RightParen, "Expect ')' after expression.")?;
+            return Ok(Expr::new_grouping(expr));
         }
 
-        panic!("{} {}", self.peek(), "Unexpected token.\n");
+        Err(ParseError)
     }
 
-    fn consume(&mut self, token_type: TokenType, message: &str) -> &Token {
+    fn consume(&mut self, token_type: TokenType, message: &str) -> Result<&Token, ParseError> {
         if self.check(&token_type) {
-            return self.advance();
+            return Ok(self.advance());
         }
 
-        panic!("{} {}", self.peek(), message)
+        Err(ParseError)
     }
 
     fn match_tokens(&mut self, types: &[TokenType]) -> bool {
-        // Implement match function to check for token types
         for token_type in types {
             if self.check(token_type) {
                 self.advance();
@@ -185,21 +182,21 @@ impl Parser {
     }
 
     fn check(&self, token_type: &TokenType) -> bool {
-        if self.is_at_end(){
+        if self.is_at_end() {
             return false;
         }
-       self.peek().token_type == *token_type
+        self.peek().token_type == *token_type
     }
 
     fn advance(&mut self) -> &Token {
         if !self.is_at_end() {
-            self.current += 1
+            self.current += 1;
         }
-        return self.previous();
+        self.previous()
     }
 
     fn is_at_end(&self) -> bool {
-        matches!(self.peek().token_type, TokenType::Eof)
+        self.peek().token_type == TokenType::Eof
     }
 
     fn peek(&self) -> &Token {
@@ -216,5 +213,4 @@ impl Parser {
             Err(_) => Expr::Error,
         }
     }
-
 }
