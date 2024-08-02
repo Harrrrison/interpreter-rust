@@ -26,7 +26,7 @@ impl std::fmt::Display for ParseError {
 impl std::error::Error for ParseError {}
 
 #[derive(Debug, Clone)]
-enum Expr {
+pub enum Expr {
     Binary(Box<Expr>, TokenType, Box<Expr>),
     Unary(TokenType, Box<Expr>),
     Literal(Literal),
