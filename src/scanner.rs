@@ -3,8 +3,9 @@ use std::fmt;
 use std::fmt::{Formatter, write};
 use std::process::exit;
 use std::sync::Once;
+use std::cmp::{PartialEq,Eq};
 
-#[derive(Clone, Debug, Ord, PartialOrd, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub enum TokenType {
     LeftParen,
     RightParen,
