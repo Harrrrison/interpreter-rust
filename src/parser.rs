@@ -180,7 +180,7 @@ impl Parser {
         if self.is_at_end() {
             return false;
         }
-        self.peek().token_type == **token_type
+        self.peek().token_type == *token_type
     }
 
     fn advance(&mut self) -> &Token {
@@ -191,7 +191,7 @@ impl Parser {
     }
 
     fn is_at_end(&self) -> bool {
-        self.peek().token_type == *TokenType::Eof
+        self.peek().token_type == TokenType::Eof
     }
 
     fn peek(&self) -> &Token {
