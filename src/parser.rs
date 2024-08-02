@@ -24,7 +24,8 @@ impl std::fmt::Display for ParseError {
     }
 }
 
-impl std::error::Error for ParseError {}
+impl std::error::Error for ParseError {
+}
 
 #[derive(Debug, Clone)]
 pub enum Expr {
@@ -56,12 +57,6 @@ impl Expr {
 pub struct Parser {
     pub(crate) tokens: Vec<Token>,
     current: usize,
-}
-
-impl PartialEq for TokenType {
-    fn eq(&self, other: &Self) -> bool {
-    self == other
-    }
 }
 
 impl Parser {
@@ -185,7 +180,7 @@ impl Parser {
         if self.is_at_end() {
             return false;
         }
-        self.peek().token_type == *token_type
+        self.peek().token_type == **token_type
     }
 
     fn advance(&mut self) -> &Token {
@@ -196,7 +191,7 @@ impl Parser {
     }
 
     fn is_at_end(&self) -> bool {
-        self.peek().token_type == TokenType::Eof
+        self.peek().token_type == *TokenType::Eof
     }
 
     fn peek(&self) -> &Token {

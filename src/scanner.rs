@@ -4,7 +4,7 @@ use std::fmt::{Formatter, write};
 use std::process::exit;
 use std::sync::Once;
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Ord, PartialOrd, Eq)]
 pub enum TokenType {
     LeftParen,
     RightParen,
