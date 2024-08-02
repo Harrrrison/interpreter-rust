@@ -133,7 +133,7 @@ impl Parser {
         self.primary()
     }
 
-    fn primary(&mut self) -> Expr {
+    fn primary(&mut self) -> Expr { // cna refator this to a match statement
         if self.match_tokens(&[TokenType::False]) {
             return Expr::new_literal(Literal::Bool(false));
         }
@@ -204,10 +204,7 @@ impl Parser {
     }
 
     pub(crate) fn parse(&mut self) -> Expr{
-        match panic::catch_unwind(|| self.expression()) {
-            Ok(expr) => expr,
-            Err(_) => Expr::Error,
-        }
+        return self.expression(); // need a wauy to catch and prevent the errors
     }
 
 }
