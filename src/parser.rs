@@ -207,6 +207,7 @@ impl Parser {
         match panic::catch_unwind(|| self.expression()) {
             Ok(expr) => expr,
             Err(_) => Expr::Error,
-        }}
+        }
     }
+
 }
