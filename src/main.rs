@@ -45,6 +45,7 @@ fn main() {
                 println!("{:?}", scanner.tokens); // not needed I dont think
                 let mut parsed_file = parser::Parser::new(scanner.tokens);
                 parsed_file.parse();
+                println!("{:?}", parsed_file.tokens)
             } else {
                 println!("EOF  null")
             }

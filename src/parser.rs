@@ -54,7 +54,7 @@ impl Expr {
 }
 
 pub struct Parser {
-    tokens: Vec<Token>,
+    pub(crate) tokens: Vec<Token>,
     current: usize,
 }
 
