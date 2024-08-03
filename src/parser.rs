@@ -191,11 +191,11 @@ impl Parser {
     }
 
     fn is_at_end(&self) -> bool {
-        self.peek().token_type == TokenType::Eof
+        (self.peek().token_type == TokenType::Eof || self.tokens.len() == self.current)
     }
 
     fn peek(&self) -> &Token {
-        &self.tokens[self.current]
+        &self.tokens[self.current] // were panicking out of boudns here, need to prevent this
     }
 
     fn previous(&self) -> &Token {
