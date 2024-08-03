@@ -191,7 +191,7 @@ impl Parser {
     }
 
     fn is_at_end(&self) -> bool {
-        (self.peek().token_type == TokenType::Eof || self.tokens.len() == self.current-1)
+        ( self.tokens.len() == self.current|| self.peek().token_type == TokenType::Eof)
     }
 
     fn peek(&self) -> &Token {
