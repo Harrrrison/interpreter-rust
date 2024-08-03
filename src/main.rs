@@ -6,6 +6,7 @@ use std::fs;
 use std::io::{self, Write};
 use scanner::Scanner;
 use parser::Parser;
+use crate::scanner::TokenType;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -46,7 +47,12 @@ fn main() {
                 let mut parsed_file = parser::Parser::new(scanner.tokens);
                 parsed_file.parse();
                 for token in &parsed_file.tokens{
-                    println!("{}", token)
+                    if token.token_type == TokenType::Class{
+                        println!("{}", token);
+                    }
+                    println!("{}", token.lexeme)
+
+
 
                 }
             } else {
