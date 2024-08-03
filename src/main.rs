@@ -42,10 +42,13 @@ fn main() {
             if !file_contents.is_empty() {
                 let mut scanner = Scanner::new();
                 scanner.scan_and_tokenize(&file_contents);
-                println!("{:?}", scanner.tokens); // not needed I dont think
+                //println!("{:?}", scanner.tokens); // not needed I dont think
                 let mut parsed_file = parser::Parser::new(scanner.tokens);
                 parsed_file.parse();
-                println!("{:?}", parsed_file.tokens)
+                for token in &parsed_file.tokens{
+                    println!("{:?}", token.lexeme)
+
+                }
             } else {
                 println!("EOF  null")
             }

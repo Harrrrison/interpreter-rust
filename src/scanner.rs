@@ -183,7 +183,7 @@ impl Scanner {
                 }
                 '=' => match chars.peek() {
                     Some('=') => {
-                        println!("EQUAL_EQUAL == null");
+                       // println!("EQUAL_EQUAL == null");
                         chars.nth(0);
                         self.tokens.push(Token {
                             token_type: TokenType::EqualEqual,
@@ -194,7 +194,7 @@ impl Scanner {
                         continue;
                     }
                     _ => {
-                        println!("EQUAL = null");
+                       // println!("EQUAL = null");
                         self.tokens.push(Token {
                             token_type: TokenType::Equal,
                             lexeme: "=".to_string(),
@@ -205,7 +205,7 @@ impl Scanner {
                 },
                 '!' => match chars.peek() {
                     Some('=') => {
-                        println!("BANG_EQUAL != null");
+                        //println!("BANG_EQUAL != null");
                         chars.nth(0);
                         self.tokens.push(Token {
                             token_type: TokenType::BangEqual,
@@ -216,7 +216,7 @@ impl Scanner {
                         continue;
                     }
                     _ => {
-                        println!("BANG ! null");
+                        //println!("BANG ! null");
                         self.tokens.push(Token {
                             token_type: TokenType::Bang,
                             lexeme: "!".to_string(),
@@ -227,7 +227,7 @@ impl Scanner {
                 },
                 '<' => match chars.peek() {
                     Some('=') => {
-                        println!("LESS_EQUAL <= null");
+                        //println!("LESS_EQUAL <= null");
                         chars.nth(0);
                         self.tokens.push(Token {
                             token_type: TokenType::LessEqual,
@@ -238,7 +238,7 @@ impl Scanner {
                         continue;
                     }
                     _ => {
-                        println!("LESS < null");
+                       // println!("LESS < null");
                         self.tokens.push(Token {
                             token_type: TokenType::Less,
                             lexeme: "<".to_string(),
@@ -249,7 +249,7 @@ impl Scanner {
                 },
                 '>' => match chars.peek() {
                     Some('=') => {
-                        println!("GREATER_EQUAL >= null");
+                       // println!("GREATER_EQUAL >= null");
                         chars.nth(0);
                         self.tokens.push(Token {
                             token_type: TokenType::GreaterEqual,
@@ -260,7 +260,7 @@ impl Scanner {
                         continue;
                     }
                     _ => {
-                        println!("GREATER > null");
+                        //println!("GREATER > null");
                         self.tokens.push(Token {
                             token_type: TokenType::Greater,
                             lexeme: ">".to_string(),
@@ -280,7 +280,7 @@ impl Scanner {
                         }
                     }
                     _ => {
-                        println!("SLASH / null");
+                        //println!("SLASH / null");
                         self.tokens.push(Token {
                             token_type: TokenType::Slash,
                             lexeme: "/".to_string(),
@@ -300,7 +300,7 @@ impl Scanner {
                                 break;
                             }
                             '"' => {
-                                println!("STRING \"{}\" {}", string_tok, string_tok);
+                                //println!("STRING \"{}\" {}", string_tok, string_tok);
                                 ending = true;
                                 self.tokens.push(Token {
                                     token_type: TokenType::String,
@@ -343,10 +343,10 @@ impl Scanner {
                     }
                     if out_number.ends_with('.') {
                         out_number.pop();
-                        println!("DOT . null"); // this is a quick fix and needs refactoring
+                       // println!("DOT . null"); // this is a quick fix and needs refactoring
                     }
                     let out_number_float = out_number.parse::<f64>().unwrap();
-                    println!("NUMBER {} {:?}", out_number, out_number_float);
+                    //println!("NUMBER {} {:?}", out_number, out_number_float);
                     self.tokens.push(Token {
                         token_type: TokenType::Number,
                         lexeme: out_number.clone(),
@@ -366,7 +366,7 @@ impl Scanner {
                     }
 
                     if let Some(token_type) = keywords.get(&token_out.as_str()) {
-                        println!("{} {} null", token_type, token_out);
+                        //println!("{} {} null", token_type, token_out);
                         self.tokens.push(Token {
                             token_type: token_type.clone(),
                             lexeme: token_out.clone(),
@@ -374,7 +374,7 @@ impl Scanner {
                             line: line_nb,
                         });
                     } else {
-                        println!("IDENTIFIER {} null", token_out);
+                        //println!("IDENTIFIER {} null", token_out);
                         self.tokens.push(Token {
                             token_type: TokenType::Identifier,
                             lexeme: token_out,
@@ -389,7 +389,7 @@ impl Scanner {
                 }
             }
         }
-        println!("EOF  null");
+        //println!("EOF  null");
         if return_code != 0 {
             exit(return_code);
         }
