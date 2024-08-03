@@ -46,7 +46,7 @@ fn main() {
                 let mut parsed_file = parser::Parser::new(scanner.tokens);
                 parsed_file.parse();
                 for token in &parsed_file.tokens{
-                    println!("{}", token.lexeme)
+                    println!("{}", token)
 
                 }
             } else {
