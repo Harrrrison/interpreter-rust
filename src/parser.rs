@@ -120,9 +120,9 @@ impl<'a> std::fmt::Display for Expr {
 
             Expr::Literal { value } => {
                 write!(f, "{}",
-                match &value {
-                    Some(Literal::Number(literal))  => format!("{:?}", literal),
-                    Some(literal) => format!("{}", literal),
+                match value {
+                    Literal::Number(literal)  => format!("{:?}", literal),
+                    literal=> format!("{}", literal),
                     None => "null".to_string(),
                 })
             }
