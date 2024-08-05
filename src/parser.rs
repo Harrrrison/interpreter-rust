@@ -243,7 +243,7 @@ impl Parser { // TODO: Return exit code on null error :) test 3 expected exit co
         if self.check(&token_type) {
             return Ok(self.advance());
         }
-
+//
         Err(ParseError)
     }
 
