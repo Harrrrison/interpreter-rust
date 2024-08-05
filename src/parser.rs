@@ -123,7 +123,6 @@ impl<'a> std::fmt::Display for Expr {
                 match value {
                     Literal::Number(literal)  => format!("{:?}", literal),
                     literal=> format!("{}", literal),
-                    None => "null".to_string(),
                 })
             }
 
