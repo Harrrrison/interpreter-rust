@@ -47,10 +47,14 @@ fn main() {
                 let mut parsed_file = parser::Parser::new(scanner.tokens);
                 parsed_file.parse();
                 for token in &parsed_file.tokens{
-                   // if token.literal == Option::from(Literal::Bool({true})) { // super bloatred implmeentation incoming
-                   //     println!("{}", token);
-                   // }
-                    println!("{}", token.lexeme)
+                    match token.literal {
+                        Some(Literal::Bool(true)) | Some(Literal::Bool(false)) | None => {
+                            println!("{}", token);
+                        },
+                        _ => {
+                            println!("{} {} {:?}", token.token_type, token.lexeme, token.literal);
+                        }
+                    }
 
 
 
