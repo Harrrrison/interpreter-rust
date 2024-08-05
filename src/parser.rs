@@ -119,7 +119,12 @@ impl<'a> std::fmt::Display for Expr {
             }
 
             Expr::Literal { value } => {
-                write!(f, "{}", value)
+                write!(f, "{}",
+                match value {
+                    Some(Literal::Number(literal))  => format!("{:?}", literal),
+                    Some(literal) => format!("{}", literal),
+                    None => "null".to_string(),
+                })
             }
 
             Expr::Unary { operator, right } => {
