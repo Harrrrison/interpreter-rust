@@ -4,6 +4,7 @@ mod parser;
 use std::env;
 use std::fs;
 use std::io::{self, Write};
+use std::process::exit;
 use scanner::Scanner;
 use parser::Parser;
 use crate::scanner::{Literal, TokenType};
@@ -29,11 +30,14 @@ fn main() {
 //TODO: implement the "parse" command
             if !file_contents.is_empty() {
                 let mut scanner = Scanner::new();
-                scanner.scan_and_tokenize(&file_contents);
+                let return_code = scanner.scan_and_tokenize(&file_contents);
                 for token in scanner.tokens{
                     println!("{}", token)
                 }
-                println!("EOF  null")
+                println!("EOF  null");
+                if return_code != 0 {
+                    exit(return_code);
+                }
                 // println!("{}", scanner.tokens); // not needed I dont think
             } else {
                 println!("EOF  null")

@@ -393,9 +393,6 @@ impl Scanner {
             }
         }
         //println!("EOF  null");
-        if return_code != 0 {
-            exit(return_code);
-        }
         return return_code;
     }
 }
