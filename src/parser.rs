@@ -127,7 +127,7 @@ impl<'a> std::fmt::Display for Expr {
             }
 
             Expr::Unary { operator, right } => {
-                write!(f, "({:?} {})", operator.lexeme, right)
+                write!(f, "({} {})", operator.lexeme, right)
             }
 
         }
