@@ -166,7 +166,7 @@ impl Scanner {
                 '(' | ')' | '{' | '}' | ',' | '.' | '-' | '+' | ';' | '*' => {
                     let char_str = &char_current.to_string();
                     if let Some(token_type) = keywords.get(char_str.as_str()) {
-                        println!("{} {} null", token_type, char_current);
+                        //println!("{} {} null", token_type, char_current);
                         self.tokens.push(Token{
                             token_type: token_type.clone(),
                             lexeme: char_str.clone(),
