@@ -16,7 +16,7 @@ primary        → NUMBER | STRING | "true" | "false" | "nil"
  */
 
 #[derive(Debug)]
-struct ParseError;
+pub struct ParseError;
 
 impl std::fmt::Display for ParseError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
