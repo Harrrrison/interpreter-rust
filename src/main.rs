@@ -49,7 +49,7 @@ fn main() {
                 for token in &parsed_file.tokens{
                     match token.literal {
                         Some(Literal::Bool(true)) | Some(Literal::Bool(false)) | None => {
-                            println!("{}", token);
+                            println!("{}", token.lexeme);
                         },
                         _ => {
                             println!("{} {} {:?}", token.token_type, token.lexeme, token.literal);
