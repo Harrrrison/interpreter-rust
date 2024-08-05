@@ -366,7 +366,7 @@ impl Scanner {
                     }
 
                     if let Some(token_type) = keywords.get(&token_out.as_str()) {
-                        //println!("{} {} null", token_type, token_out);
+                        println!("{} {} null", token_type, token_out);
                         self.tokens.push(Token {
                             token_type: token_type.clone(),
                             lexeme: token_out.clone(),

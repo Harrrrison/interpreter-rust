@@ -51,7 +51,7 @@ fn main() {
                         println!("{}", token) // var and fun and that lot arnt actyaly parsed yet so wejsut need to regurgiatete the tokens
 
                     }
-                    
+
                 }
                 //println!("{}", parsed_file.parse());
                 /*for token in &parsed_file.tokens{
