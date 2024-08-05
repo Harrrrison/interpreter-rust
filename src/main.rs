@@ -46,8 +46,12 @@ fn main() {
                 //println!("{:?}", scanner.tokens); // not needed I dont think
                 let mut parsed_file = parser::Parser::new(scanner.tokens);
                 let result = parsed_file.parse();
-                if result.is_ok(){
-                    println!("{}", result.ok().unwrap())
+                if result.is_ok() {
+                    for token in result{
+                        println!("{}", token) // var and fun and that lot arnt actyaly parsed yet so wejsut need to regurgiatete the tokens
+
+                    }
+                    
                 }
                 //println!("{}", parsed_file.parse());
                 /*for token in &parsed_file.tokens{
