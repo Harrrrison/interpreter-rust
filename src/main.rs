@@ -33,7 +33,8 @@ fn main() {
                 for token in scanner.tokens{
                     println!("{}", token)
                 }
-               // println!("{}", scanner.tokens); // not needed I dont think
+                println!("EOF  null")
+                // println!("{}", scanner.tokens); // not needed I dont think
             } else {
                 println!("EOF  null")
             }
