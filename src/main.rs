@@ -48,7 +48,7 @@ fn main() {
                 parsed_file.parse();
                 for token in &parsed_file.tokens{
                     match token.literal {
-                        Some(Literal::Bool(true)) | Some(Literal::Bool(false)) | None => {
+                        Some(Literal::Bool(true)) | Some(Literal::Bool(false))=> {
                             println!("{}", token.lexeme);
                         },
                         _ => {
