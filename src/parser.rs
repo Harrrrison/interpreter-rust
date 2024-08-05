@@ -205,7 +205,7 @@ impl Parser {
             return Ok(Expr::new_unary(operator, right));
         }
 
-        self.primary()
+        self.parse()
     }
 
     pub(crate) fn parse(&mut self) -> Result<Expr, ParseError> {
