@@ -47,8 +47,8 @@ fn main() {
                 let mut parsed_file = parser::Parser::new(scanner.tokens);
                 parsed_file.parse();
                 for token in &parsed_file.tokens{
-                    match token.literal {
-                        Some(Literal::Bool(true)) | Some(Literal::Bool(false))=> {
+                    match token.token_type {
+                        Some(TokenType::True) | Some(TokenType::True)=> {
                             println!("{}", token.lexeme);
                         },
                         _ => {
