@@ -73,7 +73,7 @@ impl fmt::Display for Token {
             "{} {} {}",
             self.token_type,
             match self.token_type{
-                Some(TokenType::String) => format!("\"{}\"", self.lexeme),
+                TokenType::String => format!("\"{}\"", self.lexeme),
                 _ => format!("{}", self.lexeme)
             },
             match &self.literal {
