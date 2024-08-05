@@ -29,28 +29,103 @@ impl std::error::Error for ParseError {
 
 #[derive(Debug, Clone)]
 pub enum Expr {
-    Binary(Box<Expr>, TokenType, Box<Expr>),
-    Unary(TokenType, Box<Expr>),
-    Literal(Literal),
-    Grouping(Box<Expr>),
-    Error,
+    Binary {
+
+        left: Box<Expr>,
+
+        operator: Token,
+
+        right: Box<Expr>,
+
+    },
+
+    Grouping {
+
+        expression: Box<Expr>,
+
+    },
+
+    Literal {
+
+        value: Literal,
+
+    },
+
+    Unary {
+
+        operator: Token,
+
+        right: Box<Expr>,
+
+    },
+}
+
+#[derive(Clone, Debug)]
+pub enum Object {
+
+    Number(f32),
+
+    String(String),
+
+    Boolean(bool),
+
+    Nil,
+
 }
 
 impl Expr {
-    fn new_binary(left: Expr, operator: TokenType, right: Expr) -> Self {
-        Expr::Binary(Box::new(left), operator, Box::new(right))
+    fn new_binary(left: Expr, operator: Token, right: Expr) -> Self {
+        Expr::Binary {
+            left: Box::new(left),
+            operator,
+            right: Box::new(right),
+        }
     }
 
-    fn new_unary(operator: TokenType, right: Expr) -> Self {
-        Expr::Unary(operator, Box::new(right))
+    fn new_unary(operator: Token, right: Expr) -> Self {
+        Expr::Unary{
+            operator,
+            right: Box::new(right),
+        }
+
     }
 
     fn new_literal(literal: Literal) -> Self {
-        Expr::Literal(literal)
+        Expr::Literal{
+            value: literal,
+        }
     }
 
     fn new_grouping(expression: Expr) -> Self {
-        Expr::Grouping(Box::new(expression))
+        Expr::Grouping{
+            expression: Box::new(expression),
+        }
+    }
+}
+
+impl<'a> std::fmt::Display for Expr {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Expr::Binary {
+                left,
+                operator,
+                right,
+            } => {
+                write!(f, "({} {} {})", operator, left, right)
+            }
+
+            Expr::Grouping { expression } => {
+                write!(f, "(group {})", expression)
+            }
+
+            Expr::Literal { value } => {
+                write!(f, "{}", value)
+            }
+
+            Expr::Unary { operator, right } => {
+                write!(f, "({} {})", operator, right)
+            }
+        }
     }
 }
 
@@ -75,7 +150,7 @@ impl Parser {
         let mut expr = self.comparison()?;
 
         while self.match_tokens(&[TokenType::BangEqual, TokenType::EqualEqual]) {
-            let operator = self.previous().token_type.clone();
+            let operator = self.previous().clone();
             let right = self.comparison()?;
             expr = Expr::new_binary(expr, operator, right);
         }
@@ -91,7 +166,7 @@ impl Parser {
             TokenType::Less,
             TokenType::LessEqual,
         ]) {
-            let operator = self.previous().token_type.clone();
+            let operator = self.previous().clone();
             let right = self.term()?;
             expr = Expr::new_binary(expr, operator, right);
         }
@@ -103,7 +178,7 @@ impl Parser {
         let mut expr = self.factor()?;
 
         while self.match_tokens(&[TokenType::Minus, TokenType::Plus]) {
-            let operator = self.previous().token_type.clone();
+            let operator = self.previous().clone();
             let right = self.factor()?;
             expr = Expr::new_binary(expr, operator, right)
         }
@@ -115,7 +190,7 @@ impl Parser {
         let mut expr = self.unary()?;
 
         while self.match_tokens(&[TokenType::Slash, TokenType::Star]) {
-            let operator = self.previous().token_type.clone();
+            let operator = self.previous().clone();
             let right = self.unary()?;
             expr = Expr::new_binary(expr, operator, right);
         }
@@ -125,7 +200,7 @@ impl Parser {
 
     fn unary(&mut self) -> Result<Expr, ParseError> {
         if self.match_tokens(&[TokenType::Minus, TokenType::Bang]) {
-            let operator = self.previous().token_type.clone();
+            let operator = self.previous().clone();
             let right = self.unary()?;
             return Ok(Expr::new_unary(operator, right));
         }
@@ -201,9 +276,36 @@ impl Parser {
     }
 
     pub(crate) fn parse(&mut self) -> Expr {
-        match self.expression() {
-            Ok(expr) => expr,
-            Err(_) => Expr::Error,
+        let literal = self.advance();
+
+        match *literal.token_type {
+
+            TokenType::String=> Expr::Literal {
+                value: literal.literal.clone().unwrap()
+            },
+
+            TokenType::Number => Expr::Literal {
+
+                value: Object::Number(literal.literal.parse::<f32>().unwrap()),
+
+            },
+
+            TokenType::True => Expr::Literal {
+
+                value: Object::Boolean(true),
+
+            },
+
+            TokenType::False => Expr::Literal {
+
+                value: Object::Boolean(false),
+
+            },
+
+            TokenType::Nil => Expr::Literal { value: Object::Nil },
+
+            _ => unimplemented!(),
+
         }
     }
 }

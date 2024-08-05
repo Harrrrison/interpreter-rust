@@ -45,8 +45,8 @@ fn main() {
                 scanner.scan_and_tokenize(&file_contents);
                 //println!("{:?}", scanner.tokens); // not needed I dont think
                 let mut parsed_file = parser::Parser::new(scanner.tokens);
-                parsed_file.parse();
-                for token in &parsed_file.tokens{
+                println!("{}", parsed_file.parse());
+                /*for token in &parsed_file.tokens{
                     match token.token_type {
                         TokenType::True | TokenType::False | TokenType::Nil=> {
                             println!("{}", token.lexeme);
@@ -56,10 +56,7 @@ fn main() {
                             println!("{} {} {:?}", token.token_type, token.lexeme, token.literal);//
                         }
                     }
-
-
-
-                }
+                  }*/
             } else {
                 println!("EOF  null")
             }
