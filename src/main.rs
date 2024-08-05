@@ -52,6 +52,7 @@ fn main() {
                             println!("{}", token.lexeme);
                         },
                         _ => {
+                            println!("{}", token.token_type);
                             println!("{} {} {:?}", token.token_type, token.lexeme, token.literal);//
                         }
                     }
