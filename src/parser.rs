@@ -111,7 +111,7 @@ impl<'a> std::fmt::Display for Expr {
                 operator,
                 right,
             } => {
-                write!(f, "({} {} {})", operator, left, right)
+                write!(f, "({} {} {})", operator.lexeme, left, right)
             }
 
             Expr::Grouping { expression } => {
