@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 use std::fmt;
-use std::fmt::{Formatter, write};
+use std::fmt::{format, Formatter, write};
 use std::process::exit;
 use std::sync::Once;
 use std::cmp::{PartialEq,Eq};
@@ -72,9 +72,12 @@ impl fmt::Display for Token {
             f,
             "{} {} {}",
             self.token_type,
-            self.lexeme,
+            match &self.token_type{
+                Some(TokenType::String) => format!("\"{}\"", self.lexeme),
+                _ => format!("{}", self.lexeme)
+            },
             match &self.literal {
-                Some(literal) => format!("\"{}\"", literal),
+                Some(literal) => format!("{}", literal),
                 None => "null".to_string(),
             }
         )
