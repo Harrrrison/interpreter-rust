@@ -138,7 +138,7 @@ pub struct Parser {
     current: usize,
 }
 
-impl Parser {
+impl Parser { // TODO: Return exit code on null error :) test 3 expected exit code 65, got 0
     pub fn new(tokens_vector: Vec<Token>) -> Self {
         Self {
             tokens: tokens_vector,
