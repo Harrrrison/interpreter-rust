@@ -129,6 +129,7 @@ impl<'a> std::fmt::Display for Expr {
             Expr::Unary { operator, right } => {
                 write!(f, "({} {})", operator, right)
             }
+
         }
     }
 }
@@ -209,10 +210,10 @@ impl Parser { // TODO: Return exit code on null error :) test 3 expected exit co
             return Ok(Expr::new_unary(operator, right));
         }
 
-        self.parse()
+        self.primary()
     }
 
-    pub(crate) fn parse(&mut self) -> Result<Expr, ParseError> {
+    pub(crate) fn primary(&mut self) -> Result<Expr, ParseError> {
         if self.match_tokens(&[TokenType::True]) {
             return Ok(Expr::new_literal(Literal::Bool(true)));
         }
@@ -243,7 +244,6 @@ impl Parser { // TODO: Return exit code on null error :) test 3 expected exit co
         if self.check(&token_type) {
             return Ok(self.advance());
         }
-//
         Err(ParseError)
     }
 
@@ -281,6 +281,13 @@ impl Parser { // TODO: Return exit code on null error :) test 3 expected exit co
 
     fn previous(&self) -> &Token {
         &self.tokens[self.current - 1]
+    }
+
+    pub(crate) fn parse(&mut self) -> Result<Expr, ParseError>{
+        match self.expression() {
+            Ok(result) => Ok(result),
+            Err(ParseError) => Err(ParseError),
+        }
     }
 
     }
