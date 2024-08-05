@@ -61,7 +61,7 @@ fn main() {
                     }
 
                 }else{
-                    exit(65)
+                    exit(0)
                 }
                 //println!("{}", parsed_file.parse());
                 /*for token in &parsed_file.tokens{
