@@ -45,7 +45,11 @@ fn main() {
                 scanner.scan_and_tokenize(&file_contents);
                 //println!("{:?}", scanner.tokens); // not needed I dont think
                 let mut parsed_file = parser::Parser::new(scanner.tokens);
-                println!("{}", parsed_file.parse());
+                let result = parsed_file.parse();
+                if result.is_ok(){
+                    println!("{}", result.ok().unwrap())
+                }
+                //println!("{}", parsed_file.parse());
                 /*for token in &parsed_file.tokens{
                     match token.token_type {
                         TokenType::True | TokenType::False | TokenType::Nil=> {

@@ -208,8 +208,7 @@ impl Parser {
         self.primary()
     }
 
-    fn primary(&mut self) -> Result<Expr, ParseError> {
-
+    pub(crate) fn parse(&mut self) -> Result<Expr, ParseError> {
         if self.match_tokens(&[TokenType::True]) {
             return Ok(Expr::new_literal(Literal::Bool(true)));
         }
@@ -275,37 +274,5 @@ impl Parser {
         &self.tokens[self.current - 1]
     }
 
-    pub(crate) fn parse(&mut self) -> Expr {
-        let literal = self.advance();
-
-        match *literal.token_type {
-
-            TokenType::String=> Expr::Literal {
-                value: literal.literal.clone().unwrap()
-            },
-
-            TokenType::Number => Expr::Literal {
-
-                value: Object::Number(literal.literal.parse::<f32>().unwrap()),
-
-            },
-
-            TokenType::True => Expr::Literal {
-
-                value: Object::Boolean(true),
-
-            },
-
-            TokenType::False => Expr::Literal {
-
-                value: Object::Boolean(false),
-
-            },
-
-            TokenType::Nil => Expr::Literal { value: Object::Nil },
-
-            _ => unimplemented!(),
-
-        }
     }
 }
