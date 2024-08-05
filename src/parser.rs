@@ -272,7 +272,7 @@ impl Parser {
     }
 
     fn peek(&self) -> &Token {
-        &self.tokens[self.current] // were panicking out of boudns here, need to prevent this
+        &self.tokens[self.current]
     }
 
     fn previous(&self) -> &Token {
