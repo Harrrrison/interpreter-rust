@@ -48,7 +48,7 @@ fn main() {
                 parsed_file.parse();
                 for token in &parsed_file.tokens{
                     match token.token_type {
-                        Some(TokenType::True) | Some(TokenType::True)=> {
+                        TokenType::True | TokenType::False=> {
                             println!("{}", token.lexeme);
                         },
                         _ => {
