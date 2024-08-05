@@ -75,7 +75,7 @@ impl fmt::Display for Token {
             self.lexeme,
             match &self.literal {
                 Some(literal) => format!("{}", literal),
-                None => "None".to_string(),
+                None => "null".to_string(),
             }
         )
     }
