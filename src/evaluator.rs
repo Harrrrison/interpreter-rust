@@ -21,7 +21,7 @@ impl RunTimeError {
 pub struct Interpreter {} // Fixed typo in struct name
 
 impl Interpreter {
-    fn new() -> Interpreter {
+    pub(crate) fn new() -> Interpreter {
         Interpreter {}
     }
 

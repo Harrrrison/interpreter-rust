@@ -6,9 +6,11 @@ use std::env;
 use std::fs;
 use std::io::{self, Write};
 use std::process::exit;
+use std::string::ParseError;
 use scanner::Scanner;
 use parser::Parser;
-use crate::scanner::{Literal, TokenType};
+use crate::evaluator::Interpreter;
+use crate::scanner::{Literal, Token, TokenType};
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -52,7 +54,6 @@ fn main() {
             if !file_contents.is_empty() {
                 let mut scanner = Scanner::new();
                 scanner.scan_and_tokenize(&file_contents);
-                //println!("{:?}", scanner.tokens); // not needed I dont think
                 let mut parsed_file = parser::Parser::new(scanner.tokens);
                 let result = parsed_file.parse();
                 if result.is_ok() {
@@ -64,25 +65,53 @@ fn main() {
                 }else{
                     exit(65)
                 }
-                //println!("{}", parsed_file.parse());
-                /*for token in &parsed_file.tokens{
-                    match token.token_type {
-                        TokenType::True | TokenType::False | TokenType::Nil=> {
-                            println!("{}", token.lexeme);
-                        },
-                        _ => {
-                            println!("{}", token.token_type);
-                            println!("{} {} {:?}", token.token_type, token.lexeme, token.literal);//
-                        }
-                    }
-                  }*/
             } else {
                 println!("EOF  null")
             }
         },
+        "evaluate" => {
+            let file_contents = fs::read_to_string(filename).unwrap_or_else(|_| {
+                writeln!(io::stderr(), "Failed to read file {}", filename).unwrap();
+                String::new()
+            });
+            if !file_contents.is_empty() {
+                let mut scanner = Scanner::new();
+                scanner.scan_and_tokenize(&file_contents);
+                let mut parsed_file = parser::Parser::new(scanner.tokens);
+                let result = parsed_file.parse();
+                let interperator = Interpreter::new();
+                if result.is_ok() {
+                    let evaluated = interperator.interpret(result.unwrap());
+                    println!("{:?}", evaluated);
+                    exit(0)
+                }else{
+                    exit(65)
+                }
+            } else {
+                println!("EOF  null")
+            }
+        }
         _ => {
             writeln!(io::stderr(), "Unknown command: {}", command).unwrap();
             return;
         }
     }
+
+
 }
+
+/*
+fn tokenize(filename: &String) -> Vec<Token> {
+    writeln!(io::stderr(), "Logs from your program will appear here!").unwrap();
+
+    let file_contents = fs::read_to_string(filename).unwrap_or_else(|_| {
+        writeln!(io::stderr(), "Failed to read file {}", filename).unwrap();
+        String::new()
+    });
+    if !file_contents.is_empty() {
+        let mut scanner = Scanner::new();
+        let return_code = scanner.scan_and_tokenize(&file_contents);
+        return scanner.tokens
+    }
+    Err(return_code)
+}*/
