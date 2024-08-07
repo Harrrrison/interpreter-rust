@@ -29,7 +29,7 @@ impl Interpreter {
         if let Expr::Literal { value } = expr {
             Ok(value)
         } else {
-            Err(ParseError::new("Invalid expression type")) // Assuming `ParseError` has this constructor
+            Err(ParseError) // Assuming `ParseError` has this constructor
         }
     }
 
@@ -38,7 +38,7 @@ impl Interpreter {
         if let Expr::Grouping { expression } = expr {
             self.evaluate(*expression) // Use self.evaluate and handle recursion properly
         } else {
-            Err(ParseError::new("Invalid grouping expression")).into()
+            Err(ParseError).into()
         }
     }
 
@@ -53,7 +53,7 @@ impl Interpreter {
             Expr::Grouping { expression } => self.visit_grouping_expr(*expression),
             Expr::Literal { value } => Ok(value),
             Expr::Unary { operator, right } => self.visit_unary_expr(operator, *right),
-            _ => Err(ParseError::new("Unsupported expression type")),
+            _ => Err(ParseError).into(),
         }
     }
 
