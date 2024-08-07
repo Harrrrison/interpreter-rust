@@ -41,7 +41,7 @@ impl Interpreter {
 
     fn visit_grouping_expr(&self, expr: Expr) -> Result<Literal, RunTimeError> {
         if let Expr::Grouping { expression } = expr {
-            self.evaluate(*expression)
+            self.evaluate(*expression.clone())
         } else {
             Err(RunTimeError::from(RunTimeError { token: Token {
                 token_type: TokenType::LeftParen,
