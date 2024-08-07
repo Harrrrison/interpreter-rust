@@ -40,6 +40,8 @@ impl Interpreter {
     }
 
     fn visit_grouping_expr(&self, expr: Expr) -> Result<Literal, RunTimeError> {
+        self.evaluate(expr)
+        /*
         if let Expr::Grouping { expression } = expr.clone() {
             self.evaluate(*expression)
         } else {
@@ -49,7 +51,7 @@ impl Interpreter {
                 literal: None,
                 line: 0,
             }, message: "group".to_string() }))
-        }
+        }*/
     }
 
     fn evaluate(&self, expr: Expr) -> Result<Literal, RunTimeError> {
