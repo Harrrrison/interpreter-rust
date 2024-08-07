@@ -15,6 +15,7 @@ impl RunTimeError {
             message: message.to_string(),
         }
     }
+
 }
 
 pub struct Interpreter {} // Fixed typo in struct name
@@ -24,21 +25,30 @@ impl Interpreter {
         Interpreter {}
     }
 
-    fn visit_literal_expr(&self, expr: Expr) -> Result<Literal, ParseError> {
+    fn visit_literal_expr(&self, expr: Expr) -> Result<Literal, RunTimeError> {
         // Changed argument type from `Expr::Literal` to `Expr`
         if let Expr::Literal { value } = expr {
             Ok(value)
         } else {
-            Err(ParseError) // Assuming `ParseError` has this constructor
+            Err(RunTimeError::from(RunTimeError { token: Token {
+                token_type: TokenType::LeftParen,
+                lexeme: "".to_string(),
+                literal: None,
+                line: 0,
+            }, message: "".to_string() }))
         }
     }
 
     fn visit_grouping_expr(&self, expr: Expr) -> Result<Literal, RunTimeError> {
-        // Corrected return type to `Literal` for consistency
         if let Expr::Grouping { expression } = expr {
-            self.evaluate(*expression) // Use self.evaluate and handle recursion properly
+            self.evaluate(*expression)
         } else {
-            Err(ParseError).into()
+            Err(RunTimeError::from(RunTimeError { token: Token {
+                token_type: TokenType::LeftParen,
+                lexeme: "".to_string(),
+                literal: None,
+                line: 0,
+            }, message: "".to_string() }))
         }
     }
 
@@ -53,7 +63,6 @@ impl Interpreter {
             Expr::Grouping { expression } => self.visit_grouping_expr(*expression),
             Expr::Literal { value } => Ok(value),
             Expr::Unary { operator, right } => self.visit_unary_expr(operator, *right),
-            _ => Err(ParseError).into(),
         }
     }
 
@@ -130,7 +139,7 @@ impl Interpreter {
                     &operator,
                     "Operands must be two numbers or strings",
                 )
-                    .into()), // Cast into ParseError
+                    ),
             },
             TokenType::BangEqual => Ok(Literal::Bool(!self.is_equal(&left, &right))),
             TokenType::EqualEqual => Ok(Literal::Bool(self.is_equal(&left, &right))),
