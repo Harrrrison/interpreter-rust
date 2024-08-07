@@ -79,9 +79,13 @@ fn main() {
                 scanner.scan_and_tokenize(&file_contents);
                 let mut parsed_file = parser::Parser::new(scanner.tokens);
                 let result = parsed_file.parse();
-                let interperator = Interpreter::new();
+                let interpreter = Interpreter::new();
                 if result.is_ok() {
-                    let evaluated = interperator.interpret(result.unwrap());
+                    for token in result{
+                        println!("{}", token) // var and fun and that lot arnt actyaly parsed yet so wejsut need to regurgiatete the tokens
+
+                    }
+                    interpreter.interpret(result.unwrap());
                     //println!("{:?}", evaluated);
                     exit(0)
                 }else{
