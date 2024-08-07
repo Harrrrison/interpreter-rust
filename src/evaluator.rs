@@ -35,7 +35,7 @@ impl Interpreter {
                 lexeme: "".to_string(),
                 literal: None,
                 line: 0,
-            }, message: "".to_string() }))
+            }, message: "literal".to_string() }))
         }
     }
 
@@ -48,7 +48,7 @@ impl Interpreter {
                 lexeme: "".to_string(),
                 literal: None,
                 line: 0,
-            }, message: "".to_string() }))
+            }, message: "group".to_string() }))
         }
     }
 

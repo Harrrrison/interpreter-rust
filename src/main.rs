@@ -81,10 +81,6 @@ fn main() {
                 let result = parsed_file.parse();
                 let interpreter = Interpreter::new();
                 if result.is_ok() {
-                    for token in &result{
-                        println!("{}", token) // var and fun and that lot arnt actyaly parsed yet so wejsut need to regurgiatete the tokens
-
-                    }
                     interpreter.interpret(result.unwrap());
                     //println!("{:?}", evaluated);
                     exit(0)
