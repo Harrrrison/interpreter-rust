@@ -81,7 +81,11 @@ fn main() {
                 let result = parsed_file.parse();
                 let interpreter = Interpreter::new();
                 if result.is_ok() {
-                    interpreter.interpret(result.unwrap());
+                    match interpreter.interpret(result.unwrap()){
+                        Ok(T) => {exit(0)}
+                        Err(e) => exit(70)
+                    }
+
                     //println!("{:?}", evaluated);
                     exit(0)
                 }else{
