@@ -1,5 +1,6 @@
 mod scanner;
 mod parser;
+mod evaluator;
 
 use std::env;
 use std::fs;
