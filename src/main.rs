@@ -90,7 +90,7 @@ fn main() {
                             Err(e)=> exit(70),
                         }
                     }*/
-                    let out = match interpreter.interpret(result.clone().unwrap()) {
+                    let out = match interpreter.interpret(result.unwrap()) {
                         Ok(T) => {
                         },
                         Err(e)=> exit(70),
