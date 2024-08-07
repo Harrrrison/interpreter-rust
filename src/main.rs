@@ -83,11 +83,8 @@ fn main() {
                 if result.is_ok() {
                     match interpreter.interpret(result.unwrap()){
                         Ok(T) => {exit(0)}
-                        Err(e) => exit(70)
+                        _ => exit(70)
                     }
-
-                    //println!("{:?}", evaluated);
-                    exit(0)
                 }else{
                     exit(65)
                 }
