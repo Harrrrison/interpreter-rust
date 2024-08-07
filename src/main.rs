@@ -82,7 +82,7 @@ fn main() {
                 let interperator = Interpreter::new();
                 if result.is_ok() {
                     let evaluated = interperator.interpret(result.unwrap());
-                    println!("{:?}", evaluated);
+                    //println!("{:?}", evaluated);
                     exit(0)
                 }else{
                     exit(65)
