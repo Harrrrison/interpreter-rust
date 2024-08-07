@@ -5,6 +5,7 @@ use crate::scanner::TokenType::Plus; // Correctly used below
 
 
 
+#[derive(Debug)]
 pub struct RunTimeError {
     pub token: Token,
     pub message: String,
@@ -185,10 +186,15 @@ impl Interpreter {
         }
     }
 
-    pub(crate) fn interpret(&self, expression: Expr) {
+    pub(crate) fn interpret(&self, expression: Expr) -> Result<String, RunTimeError> {
         match self.evaluate(expression) {
-            Ok(result) => println!("{}", self.stringify(&Some(result))),
-            Err(err) => println!("Runtime error: {}", err.message), // Print error message correctly
+            Ok(result) => Ok(self.stringify(&Some(result))),
+            Err(err) => Err(RunTimeError::new(&Token {
+                token_type: TokenType::LeftParen,
+                lexeme: "".to_string(),
+                literal: None,
+                line: 0,
+            }, "RunTimeError")), // Print error message correctly
         }
     }
 
