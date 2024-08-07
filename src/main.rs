@@ -96,7 +96,7 @@ fn main() {
                         Err(e)=> exit(70),
                     };
                     println!("{:?}", out);
-                    }
+                    exit(0)
 
                 }else{
                     exit(65)
