@@ -83,36 +83,21 @@ impl Expr {
     }
 
     fn new_unary(operator: Token, right: Expr) -> Self {
-        Expr::Unary{
+        Expr::Unary {
             operator,
             right: Box::new(right),
         }
-
     }
 
     fn new_literal(literal: Literal) -> Self {
-        Expr::Literal{
+        Expr::Literal {
             value: literal,
         }
     }
 
     fn new_grouping(expression: Expr) -> Self {
-        Expr::Grouping{
+        Expr::Grouping {
             expression: Box::new(expression),
-        }
-    }
-
-    pub fn accept<T>(&self, visitor: &T) -> T::Output{
-        return match self {
-
-            Expr::Binary(binary) => visitor.visit_binary(binary),
-
-            Expr::Grouping(grouping) => visitor.visit_grouping(grouping),
-
-            Expr::Literal(literal) => visitor.visit_literal(literal),
-
-            Expr::Unary(unary) => visitor.visit_unary(unary),
-
         }
     }
 }
