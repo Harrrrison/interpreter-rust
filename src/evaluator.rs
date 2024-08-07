@@ -188,7 +188,10 @@ impl Interpreter {
 
     pub(crate) fn interpret(&self, expression: Expr) -> Result<String, RunTimeError> {
         match self.evaluate(expression) {
-            Ok(result) => Ok(self.stringify(&Some(result))),
+            Ok(result) => {
+                return Ok(self.stringify(&Some(result)))
+
+            },
             Err(err) => Err(RunTimeError::new(&Token {
                 token_type: TokenType::LeftParen,
                 lexeme: "".to_string(),

@@ -92,10 +92,10 @@ fn main() {
                     }*/
                     let out = match interpreter.interpret(result.unwrap()) {
                         Ok(T) => {
+                            println!("{}", T);
                         },
                         Err(e)=> exit(70),
                     };
-                    println!("{:?}", out);
                     exit(0)
 
                 }else{
