@@ -8,6 +8,10 @@
 - **Extensible architecture**: Easily add new features or extend the interpreter to handle more complex language constructs.
 - **Clear code structure**: Modular, well-documented code, making it easy to follow and contribute to.
 
+### Currently working on
+
+- **Implementing Statements and State**:  This will allow a user to create and store variables along with console output
+
 ## Getting Started
 
 ### Prerequisites
