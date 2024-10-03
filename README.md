@@ -1,34 +1,48 @@
-[![progress-banner](https://backend.codecrafters.io/progress/interpreter/11694bb5-a7ad-4279-a8de-b1cff04e527f)](https://app.codecrafters.io/users/codecrafters-bot?r=2qF)
+# Rust Interpreter
 
-This is a starting point for Rust solutions to the
-["Build Your Own Build your own Interpreter" Challenge](https://app.codecrafters.io/courses/interpreter/overview).
+**Rust Interpreter** is a performant and extensible interpreter written in Rust, designed to evaluate expressions efficiently. This project demonstrates key concepts in interpreter design and provides a solid foundation for building more advanced language features.
 
-_Add a description of your course here_
+## Features
 
-**Note**: If you're viewing this repo on GitHub, head over to
-[codecrafters.io](https://codecrafters.io) to try the challenge.
+- **Fast execution**: Built with Rust, leveraging its powerful memory management and performance optimizations.
+- **Extensible architecture**: Easily add new features or extend the interpreter to handle more complex language constructs.
+- **Clear code structure**: Modular, well-documented code, making it easy to follow and contribute to.
 
-# Passing the first stage
+## Getting Started
 
-The entry point for your `<fill_in_executable_name>` implementation is in
-`src/main.rs`. Study and uncomment the relevant code, and push your changes to
-pass the first stage:
+### Prerequisites
 
-```sh
-git add .
-git commit -m "pass 1st stage" # any msg
-git push origin master
-```
+To get started, ensure you have the following installed:
 
-Time to move on to the next stage!
+- [Rust](https://www.rust-lang.org/tools/install) (version 1.70 or higher)
+- Cargo (Rust’s package manager)
 
-# Stage 2 & beyond
+### Installation
 
-Note: This section is for stages 2 and beyond.
+1. Clone this repository:
 
-1. Ensure you have `cargo (1.77)` installed locally
-1. Run `./<fill_in_script_name>.sh` to run your program, which is implemented in
-   `src/main.rs`. This command compiles your Rust project, so it might be slow
-   the first time you run it. Subsequent runs will be fast.
-1. Commit your changes and run `git push origin master` to submit your solution
-   to CodeCrafters. Test output will be streamed to your terminal.
+    ```bash
+    git clone https://github.com/Harrrrison/interpreter-rust.git
+    cd interpreter-rust
+    ```
+
+2. Build the project:
+
+    ```bash
+    cargo build
+    ```
+
+3. Run the interpreter:
+
+    ```bash
+    cargo run
+    ```
+
+## Usage
+
+The interpreter supports evaluating simple arithmetic expressions. Here's an example of how to use it:
+
+```bash
+$ cargo run
+> 5 + 3 * (2 - 1)
+8
